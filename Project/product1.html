@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="product.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <div class="logo">Logo</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="login.php">Login</a></li>
+            </ul>
+        </nav>
+        <div class="login-circle">
+            <!-- Trigger area for dropdown -->
+            <div class="user-icon"></div>
+            
+            <!-- Dropdown Menu -->
+            <div class="dropdown-menu">
+                <a href="dashboard.php">Dashboard</a>
+                <a href="#">Sign Out</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="product-container">
+            <div class="product-image">
+                <img src="lambanog_product.webp" alt="Product Image" id="main-product-image">
+            </div>
+            <div class="product-details">
+                <h1>Lambanog</h1>
+                <p>San Juan Lambanog is a traditional Philippine distilled spirit made from coconut. With San Juan Lambanog, we have improved production by fermenting on-site which guarantees a finer and cleaner spirit that preserves the complexity of a true Lambanog.</p>
+                <p class="availability">Availability: <span id="availability">In Stock</span></p>
+                <div class="bidding-section">
+                    <label for="bid-amount">Bid Amount:</label>
+                    <input type="number" id="bid-amount" placeholder="Enter your bid" min="0" />
+                    <button class="bid-button">Place a Bid</button>
+                </div>
+                    <h2>Bidders</h2>
+                    <ul id="bidder-list">
+                        <!-- Bidders will be appended here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>Footer</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

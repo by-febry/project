@@ -1,0 +1,150 @@
+/* Global Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    background-color: #8B0000; /* Dark red */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.logo {
+    font-size: 24px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.login-circle {
+    width: 30px;
+    height: 30px;
+    background-color: lightgray;
+    border-radius: 50%;
+}
+
+/* Main Section */
+main {
+    text-align: center;
+    padding: 40px;
+    flex: 1; /* Allows main content to expand and push footer to the bottom */
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 40px;
+}
+
+/* Product Gallery */
+.product-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px; /* Space between product items */
+}
+
+.product-item {
+    width: 200px; /* Width of each product item */
+    background-color: #FFFFFF; /* White background for products */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 15px; /* Padding around product content */
+    text-align: center; /* Center align text */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.product-item img {
+    width: 100%; /* Responsive image */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Bid Button */
+.bid-button {
+    background-color: #8B0000; /* Dark red button */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer; /* Pointer cursor for button */
+    border-radius: 5px; /* Rounded button */
+    margin-top: 10px; /* Space above button */
+}
+
+.bid-button:hover {
+    background-color: #b22222; /* Lighter red on hover */
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px 0;
+}
+/* Style the login-circle */
+.login-circle {
+    width: 30px;
+    height: 30px;
+    background-color: lightgray;
+    border-radius: 50%;
+    position: relative; /* To position the dropdown menu relative to this */
+    cursor: pointer;
+}
+
+.user-icon {
+    width: 100%;
+    height: 100%;
+    background: url('user-icon.png') no-repeat center center;
+    background-size: cover; /* Replace this with the actual user icon image if needed */
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 40px; /* Position it just below the circle */
+    right: 0; /* Align to the right of the circle */
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px;
+    color: black;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+    background-color: #8B0000;
+    color: white;
+}
+
