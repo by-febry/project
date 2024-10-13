@@ -28,7 +28,7 @@ if (isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Batangas - Shop</title>
-    <link rel="stylesheet" href="shops.css">
+    <link rel="stylesheet" href="shop.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -65,32 +65,105 @@ if (isset($_SESSION['user_id'])) {
 
     <!-- Main Content -->
     <main>
-        <h1>Shop</h1>
-        <div class="product-gallery">
-            <div class="product-item">
-                <img src="lambanog_product.webp" alt="Product 1">
-                <h2>Lambanog</h2>
-                <a href="product1.php">
-                    <button class="bid-button">Check this out</button>  
-                </a>
+    <!-- Product Thumbnails -->
+    <div class="row">
+        <!-- Thumbnail 1 -->
+        <div class="col-sm-6 col-md-3">
+            <div class="thumbnail">
+                <img src="img/lambanog_product.webp" alt="Lambanog">
+                <div class="caption">
+                    <h3>Lambanog</h3>
+                    <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
+
+                    <p>
+                        <a href="#" class="btn btn-primary" role="button">Buy</a> 
+                        <a href="#" class="btn btn-default" role="button">Add to Cart</a>
+                    </p>
+                </div>
             </div>
-            <div class="product-item">
-                <img src="palayok.jfif" alt="Product 2">
-                <h2>Palayok</h2>
-                <a href="product2.php">
-                    <button class="bid-button">Check this out</button>
-                </a>
+             <!-- Thumbnail 2 -->
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="img/palayok.jpg" alt="Palayok">
+                <div class="caption">
+                    <h3>Palayok</h3>
+                    <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
+
+                    <p>
+                        <a href="#" class="btn btn-primary" role="button">Buy</a> 
+                        <a href="#" class="btn btn-default" role="button">Add to Cart</a>
+                    </p>
+                </div>
             </div>
-            <div class="product-item">
-                <img src="product3.jpg" alt="Product 3">
-                <h2>Product Title 3</h2>
-                <a href="product3.php">
-                    <button class="bid-button">Check this out</button>
-                </a>
-            </div>
-            <!-- Add more products as needed -->
         </div>
-    </main>
+        </div>
+
+       
+
+        <!-- Thumbnail 3 -->
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="img/handwoven basket.jpg" alt="Handwoven Basket">
+                <div class="caption">
+                    <h3>Handwoven Basket</h3>
+                    <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
+
+                    <p>
+                        <a href="#" class="btn btn-primary" role="button">Buy</a> 
+                        <a href="#" class="btn btn-default" role="button">Add to Cart</a>
+                    </p>
+                </div>
+            </div>
+            <!-- Thumbnail 4 -->
+         <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="img/kapeng Barako.jpg" alt="Kapeng Barako">
+                <div class="caption">
+                    <h3>Kapeng Barako</h3>
+                    <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
+
+                    <p>
+                        <a href="#" class="btn btn-primary" role="button">Buy</a> 
+                        <a href="#" class="btn btn-default" role="button">Add to Cart</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        </div>
+         
+        
+         <!-- Thumbnail 5 -->
+         <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="img/bagoong-balayan.jpg" alt="Bagoong Balayan">
+                <div class="caption">
+                    <h3>Bagoong Balayan</h3>
+                    <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
+
+                    <p>
+                        <a href="#" class="btn btn-primary" role="button">Buy</a> 
+                        <a href="#" class="btn btn-default" role="button">Add to Cart</a>
+                    </p>
+                </div>
+            </div>
+             <!-- Thumbnail 5 -->
+         <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="img/Dried Fish.jpg" alt="Dried Fish (Tuyo)">
+                <div class="caption">
+                    <h3>Dried Fish (Tuyo)</h3>
+                    <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
+
+                    <p>
+                        <a href="#" class="btn btn-primary" role="button">Buy</a> 
+                        <a href="#" class="btn btn-default" role="button">Add to Cart</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+      
 
     <!-- Footer -->
     <footer>

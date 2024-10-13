@@ -2,44 +2,64 @@
 // Include the database connection
 include 'connection.php';
 
+// Your secret key from Google reCAPTCHA
+$secretKey = "6LeOP2AqAAAAABbaTFsAFx7eXSc8-LAfc4clfw0X";
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    // Verify CAPTCHA response
+    $captcha = $_POST['g-recaptcha-response'];
 
-    // Check if the email exists
-    $query = "SELECT * FROM users WHERE email = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('s', $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
+    if (!$captcha) {
+        echo "Please check the reCAPTCHA box.";
         
-        // Verify the password
-        if (password_verify($password, $user['password'])) {
-            // Start a session and store user info
-            session_start();
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['role'] = $user['role'];
-            $_SESSION['user_id'] = $user['id'];
-
-            // Redirect based on the role
-            if ($user['role'] == 'admin') {
-                header("Location: admin.php"); // Redirect to admin dashboard
-            } else {
-                header("Location: dashboard.php"); // Redirect to user dashboard
-                
-            }
-            exit();
-        } else {
-            echo "Incorrect password. Please try again.";
-        }
-    } else {
-        echo "No user found with that email.";
     }
-    $stmt->close();
+
+    // Send the response to Google's verification server
+    $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$captcha");
+    $responseKeys = json_decode($response, true);
+
+    // Check if reCAPTCHA is successful
+    if (intval($responseKeys["success"]) !== 1) {
+        echo "CAPTCHA verification failed. Please try again.";
+    } else {
+        // CAPTCHA was successful, proceed with login
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        // Check if the email exists
+        $query = "SELECT * FROM users WHERE email = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+
+            // Verify the password
+            if (password_verify($password, $user['password'])) {
+                // Start a session and store user info
+                session_start();
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['role'] = $user['role'];
+                $_SESSION['user_id'] = $user['id'];
+
+                // Redirect based on the role
+                if ($user['role'] == 'admin') {
+                    header("Location: admin.php"); // Redirect to admin dashboard
+                } else {
+                    header("Location: dashboard.php"); // Redirect to user dashboard
+                }
+                exit();
+            } else {
+                echo "Incorrect password. Please try again.";
+            }
+        } else {
+            echo "No user found with that email.";
+        }
+        $stmt->close();
+    }
 }
 ?>
 
@@ -51,6 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="login_register.css">
+    <!-- Google reCAPTCHA API -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -63,9 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <li><a href="#">About</a></li>
                 <?php if (isset($_SESSION['user_id'])): ?>
                 <li><a href="logout.php">Logout</a></li>
-            <?php else: ?>
+                <?php else: ?>
                 <li><a href="login.php">Login</a></li>
-            <?php endif; ?>
+                <?php endif; ?>
             </ul>
         </nav>
         <div class="login-circle">
@@ -78,9 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <a href="logout.php">Sign Out</a>
             </div>
         </div>
-        
     </header>
-
 
     <main>
         <h1>Login</h1>
@@ -91,13 +111,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required><br>
 
+            <!-- Google reCAPTCHA widget -->
+            <div class="g-recaptcha" data-sitekey="6LeOP2AqAAAAAHQB2xmCuXSJzy1yqinSx01NeCxJ"></div>
+
             <button type="submit">Login</button>
             <p><a href="forgot_password.php">Forgot Password?</a></p>
             <p>Don't have an account? <a href="register.php">Register here</a></p>
-       
         </form>
-        
-        
     </main>
 
     <!-- Footer -->

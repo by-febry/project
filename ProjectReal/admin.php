@@ -5,6 +5,12 @@ include 'connection.php';
 // Fetch all users from the database
 $query = "SELECT id, username, email, role FROM users";
 $result = $conn->query($query);
+
+// Fetch transactions from the database
+$transactionQuery = "SELECT t.id, u.username, t.total_price AS amount, t.transaction_date AS created_at, t.status 
+                     FROM Transactions t
+                     JOIN users u ON t.user_id = u.id";
+$transactionResult = $conn->query($transactionQuery);
 ?>
 
 <!DOCTYPE html>
@@ -86,6 +92,35 @@ $result = $conn->query($query);
                                     <button type="submit" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
                                 </form>
                             </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </section>
+
+         <!-- Transaction Management -->
+         <section>
+            <h2>Transactions</h2>
+
+            <!-- Display Existing Transactions -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($transactionRow = $transactionResult->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo $transactionRow['id']; ?></td>
+                            <td><?php echo $transactionRow['username']; ?></td>
+                            <td><?php echo $transactionRow['amount']; ?></td>
+                            <td><?php echo $transactionRow['created_at']; ?></td>
+                            <td><?php echo $transactionRow['status']; ?></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
