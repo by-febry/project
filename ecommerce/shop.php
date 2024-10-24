@@ -230,14 +230,10 @@ footer {
                 <li><a href="index.php">Home</a></li>
                 <li><a href="shop.php">Shop</a></li>
                 <li><a href="#">About</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="login.php">Login</a></li>
             </ul>
         </nav>
-        <div class="login-circle">
-            <!-- Trigger area for dropdown -->
-            <div class="user-icon"></div>
-         
-        </div>
+        
         
     </header>
 
@@ -252,7 +248,7 @@ footer {
                     <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
 
                     <p>
-                        <a href="#" class="btn btn-primary" role="button">Buy</a> 
+                        <a href="P1.php" class="btn btn-primary" role="button">Buy</a> 
                         <a href="#" class="btn btn-default" role="button">Add to Cart</a>
                     </p>
                 </div>
@@ -266,7 +262,7 @@ footer {
                     <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
 
                     <p>
-                        <a href="#" class="btn btn-primary" role="button">Buy</a> 
+                        <a href="P2.php" class="btn btn-primary" role="button">Buy</a> 
                         <a href="#" class="btn btn-default" role="button">Add to Cart</a>
                     </p>
                 </div>
@@ -285,7 +281,7 @@ footer {
                     <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
 
                     <p>
-                        <a href="#" class="btn btn-primary" role="button">Buy</a> 
+                        <a href="P3.php" class="btn btn-primary" role="button">Buy</a> 
                         <a href="#" class="btn btn-default" role="button">Add to Cart</a>
                     </p>
                 </div>
@@ -299,7 +295,7 @@ footer {
                     <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
 
                     <p>
-                        <a href="#" class="btn btn-primary" role="button">Buy</a> 
+                        <a href="P4.php" class="btn btn-primary" role="button">Buy</a> 
                         <a href="#" class="btn btn-default" role="button">Add to Cart</a>
                     </p>
                 </div>
@@ -317,12 +313,12 @@ footer {
                     <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
 
                     <p>
-                        <a href="#" class="btn btn-primary" role="button">Buy</a> 
+                        <a href="P5.php" class="btn btn-primary" role="button">Buy</a> 
                         <a href="#" class="btn btn-default" role="button">Add to Cart</a>
                     </p>
                 </div>
             </div>
-             <!-- Thumbnail 5 -->
+             <!-- Thumbnail 6 -->
          <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
                 <img src="img/Dried Fish.jpg" alt="Dried Fish (Tuyo)">
@@ -331,7 +327,7 @@ footer {
                     <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
 
                     <p>
-                        <a href="#" class="btn btn-primary" role="button">Buy</a> 
+                        <a href="P6.php" class="btn btn-primary" role="button">Buy</a> 
                         <a href="#" class="btn btn-default" role="button">Add to Cart</a>
                     </p>
                 </div>

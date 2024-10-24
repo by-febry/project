@@ -82,9 +82,12 @@ header nav ul li a:hover {
 .user-icon {
     width: 90px;
     height: 75px;
-    background-color: #fff; /* White circle as placeholder for user icon */
-    border-radius: 50%;      /* Makes the placeholder a circle */
-    cursor: pointer;         /* Changes cursor to pointer (clickable) */
+    background-color: #fff; /* Remove this if you always want to show an image */
+    background-size: cover; /* Ensure the image covers the entire circle */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    border-radius: 50%; /* Makes the placeholder a circle */
+    cursor: pointer; /* Changes cursor to pointer (clickable) */
 }
 
 
@@ -183,25 +186,24 @@ footer {
     <!-- Wrapper for content -->
     <div class="wrapper">
 
-        <!-- Navigation Bar -->
-        <header>
-            <div class="logo">
+    <header>
+    <div class="logo">
                 <img src="img/Screenshot 2024-10-13 151839.png" alt="Logo" />
             </div>
-            <nav>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="shop.php">Shop</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="login.html">Login</a></li>
-                </ul>
-            </nav>
-            <div class="login-circle">
-                <!-- Trigger area for dropdown -->
-                <div class="user-icon"></div>
-            </div>
-        </header>
-
+        <nav>
+            <ul>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="shop.php">Shop</a></li>
+                <li><a href="#">About</a></li>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                <li><a href="logout.php">Logout</a></li>
+                <?php else: ?>
+                <li><a href="login.php">Login</a></li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+        
+    </header>
         <!-- Image Gallery with individual containers -->
         <div class="image-gallery">
             <div class="image-item">
