@@ -1,4 +1,3 @@
-
 <?php
 // Include your database connection
 include 'connection.php';
@@ -20,7 +19,6 @@ if (isset($_SESSION['user_id'])) {
     $stmt->close();
 }
 ?>
-
 
 
 

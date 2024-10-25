@@ -93,8 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="email" id="email" name="email" required>
 
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-
+                <input type="password" id="password" name="password" pattern="(?=.*\d)[A-Za-z\d]{8,}" title="Password must be at least 8 characters long and contain at least one number." required>
+                <small>Password must be at least 8 characters long and include at least one number.</small>
                 <label for="confirm-password">Confirm Password:</label>
                 <input type="password" id="confirm-password" name="confirm-password" required>
 

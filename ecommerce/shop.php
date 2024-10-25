@@ -1,3 +1,26 @@
+<?php
+// Include your database connection
+include 'connection.php';
+session_start();  // Start the session to access session data
+
+// Initialize the profile picture variable
+$profilePicture = 'default_profile_picture.jpg'; // Set a default image for guests
+
+// Check if the user is logged in
+if (isset($_SESSION['user_id'])) {
+    // Fetch user details, including profile picture
+    $userId = $_SESSION['user_id'];
+    $query = "SELECT profile_picture FROM users WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('i', $userId);
+    $stmt->execute();
+    $stmt->bind_result($profilePicture);
+    $stmt->fetch();
+    $stmt->close();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,20 +84,6 @@ header nav ul li a {
 header nav ul li a:hover {
     color: rgb(0, 0, 0); /* Changes text color to black when hovered */
 }
-
-/* User Icon & Dropdown Placeholder */
-.login-circle {
-    position: relative;
-}
-
-.user-icon {
-    width: 100px;
-    height: 85px;
-    background-color: #fff; /* White circle as placeholder for user icon */
-    border-radius: 50%;      /* Makes the placeholder a circle */
-    cursor: pointer;         /* Changes cursor to pointer (clickable) */
-}
-
 
 
 /* Product Gallery */
@@ -214,6 +223,47 @@ footer {
 }
 
 
+.login-circle {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-icon {
+    /* Adjust styles for the default icon or profile image here */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc; /* Default background for empty user icon */
+}
+
+.dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 30px; /* Position it just below the circle */
+    right: 0; /* Align to the right of the circle */
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 10; /* Ensure dropdown appears above other elements */
+}
+
+.login-circle:hover .dropdown-menu {
+    display: block; /* Show dropdown on hover */
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px;
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.dropdown-menu a:hover {
+    background-color: #8B0000;
+    color: white;
+}
 
 
     </style>
@@ -230,10 +280,31 @@ footer {
                 <li><a href="index.php">Home</a></li>
                 <li><a href="shop.php">Shop</a></li>
                 <li><a href="#">About</a></li>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                <li><a href="logout.php">Logout</a></li>
+                <?php else: ?>
                 <li><a href="login.php">Login</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
-        
+        <div class="login-circle">
+             <!-- Trigger area for dropdown -->
+                  <?php if ($profilePicture): ?>
+                   <img src="<?php echo $profilePicture; ?>" alt="User Icon" class="user-icon" />
+                 <?php else: ?>
+              <div class="user-icon"></div> <!-- Default icon if no profile picture -->
+                 <?php endif; ?>
+    
+    <!-- Dropdown Menu -->
+        <div class="dropdown-menu">
+             <a href="dashboard.php">Dashboard</a>
+             <a href="logout.php">Sign Out</a>
+             <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="account.php">Account Information</a></li>
+                <?php else: ?>
+                <a href="login.php">Account Information</a></li>
+                <?php endif; ?>    
+        </div>
         
     </header>
 
