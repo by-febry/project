@@ -1,25 +1,9 @@
 <?php
-// Include your database connection
-include 'connection.php';
-session_start();  // Start the session to access session data
+session_start(); // Start the session
+// Include the database connection
+include 'connection.php'; // Make sure the path is correct
 
-// Initialize the profile picture variable
-$profilePicture = 'default_profile_picture.jpg'; // Set a default image for guests
-
-// Check if the user is logged in
-if (isset($_SESSION['user_id'])) {
-    // Fetch user details, including profile picture
-    $userId = $_SESSION['user_id'];
-    $query = "SELECT profile_picture FROM users WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('i', $userId);
-    $stmt->execute();
-    $stmt->bind_result($profilePicture);
-    $stmt->fetch();
-    $stmt->close();
-}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,278 +11,363 @@ if (isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Batangas - Shop</title>
-    <link rel="stylesheet" href="shop.css">
+
+    <!-- CSS styles -->
+    <style>
+    /* General Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
+
+    html, body {
+        height: 100%;
+        background-color: rgb(244, 244, 244); /* #f4f4f4 */
+        color: rgb(51, 51, 51); /* #333 */
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* Navigation Bar */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #8B0000; /* Dark Red background */
+        padding: 10px 20px;
+        color: rgb(255, 255, 255); /* White text color */
+        font-size: 25px;
+    }
+
+    /* Logo Section */
+    header .logo img {
+        max-height: 80px;
+    }
+
+    /* Navigation Links */
+    header nav ul {
+        list-style: none;
+        display: flex;
+    }
+
+    header nav ul li {
+        margin-right: 30px;
+    }
+
+    header nav ul li a {
+        text-decoration: none;
+        color: rgb(255, 255, 255);
+        font-weight: bold;
+    }
+
+    header nav ul li a:hover {
+        color: rgb(0, 0, 0); /* Change text color to black when hovered */
+    }
+
+    /* Footer Section */
+    footer {
+        background-color: #8B0000;
+        color: rgb(255, 255, 255);
+        padding: 20px 0;
+        text-align: center;
+        width: 100%;
+        margin-top: auto; /* Ensure it stays at the bottom */
+    }
+
+    .footer-content p {
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: rgb(0, 0, 0); 
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+    .footer-links a:hover {
+        text-decoration: underline;
+    }
+
+    /* Login Button */
+    .btnLogin-popup {
+        width: 110px;
+        height: 30px;
+        background: transparent;
+        border: 2px solid #fff;
+        outline: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: small;
+        color: #fff;
+        font-weight: 500;
+        transition: .5s;
+        margin-left: 10px;
+    }
+
+    .btnLogin-popup:hover {
+        background: #fff;
+        color: #162938;
+    }
+
+    /* Form Popup Background */
+    .popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Form Box */
+    .form-box {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+        position: relative;
+    }
+
+    .form-box h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Input Fields */
+    .input-box {
+        position: relative;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-box label {
+        width: 100px;
+        font-size: 14px;
+        color: #333;
+        margin-right: 10px;
+    }
+
+    .input-box input {
+        width: calc(100% - 110px);
+        padding: 10px;
+        border: 2px solid #333;
+        border-radius: 5px;
+        outline: none;
+        background: none;
+    }
+
+    /* Close Button */
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background-color: #8B0000;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        font-size: 16px;
+        line-height: 30px;
+        text-align: center;
+    }
+
+    .remember-forgot {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        width: 100%;
+        background-color: #8B0000;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .btn:hover {
+        background-color: #333;
+    }
+
+    .login-register p {
+        text-align: center;
+    }
+
+    .login-register p a {
+        color: #8B0000;
+        text-decoration: none;
+    }
+
+    .login-register p a:hover {
+        text-decoration: underline;
+    }
+
+    /* Image Gallery Layout */
+    .image-gallery {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        margin-top: 50px;
+    }
+
+    .image-item {
+        width: 300px;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+        margin: 20px;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .image-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .image-item h3 {
+        margin-top: 10px;
+        font-size: 18px;
+        color: rgb(51, 51, 51);
+    }
+
+    /* Button Styling */
+    .view-more-container {
+        text-align: center;
+        margin-top: 100px;
+    }
+
+    .view-more-btn {
+        padding: 10px 20px;
+        background-color: #8B0000;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .view-more-btn:hover {
+        background-color: #a62b2b;
+    }
+
+
+    </style>
 </head>
-<style>
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
-
-html, body {
-    height: 100%;
-    background-color: rgb(244, 244, 244); /* #f4f4f4 */
-    color: rgb(51, 51, 51); /* #333 */
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Wrapper for content */
-.wrapper {
-    flex: 1; /* Allows the wrapper to grow and fill the available space */
-}
-
-/* Navigation Bar */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #8B0000; /* Dark Red background */
-    padding: 10px 20px;
-    color: rgb(255, 255, 255); /* White text color */
-    font-size: 25px;
-}
-
-/* Logo Section in the Header */
-header .logo img {
-    max-height: 80px;  /* Adjust this value based on header height */
-}
-
-/* Navigation Links */
-header nav {
-    margin-left: auto; /* Pushes the navigation links to the right */
-}
-
-header nav ul {
-    list-style: none;   /* Removes bullet points from list */
-    display: flex;      /* Displays list items in a row */
-}
-
-/* Individual List Items */
-header nav ul li {
-    margin-right: 30px; /* Space between menu items */
-}
-
-/* Links in Navigation */
-header nav ul li a {
-    text-decoration: none; /* Removes underline from links */
-    color: rgb(255, 255, 255); /* White text color */
-    font-weight: bold;
-}
-
-/* Hover Effect on Links */
-header nav ul li a:hover {
-    color: rgb(0, 0, 0); /* Changes text color to black when hovered */
-}
-
-
-/* Container for each image */
-.image-item {
-    width: 300px;
-    background-color: rgb(255, 255, 255); /* Container box background */
-    border-radius: 10px;
-    margin: 20px;
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-/* Image Gallery Layout */
-.image-gallery {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    margin-top: 50px;
-}
-
-.image-item img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.image-item h3 {
-    margin-top: 10px;
-    font-size: 18px;
-    color: rgb(51, 51, 51); /* Title color */
-}
-
-/* Button Styling */
-.view-more-container {
-    text-align: center;
-    margin-top: 100px;
-}
-
-.view-more-btn {
-    padding: 10px 20px;
-    background-color: #8B0000;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.view-more-btn:hover {
-    background-color: #a62b2b; /* Slightly lighter red on hover */
-}
-
-/* Footer Section */
-footer {
-    background-color: #8B0000; /* #C72C41 */
-    color: rgb(255, 255, 255); /* #fff */
-    padding: 20px 0;
-    text-align: center;
-    width: 100%;
-    /* Stick the footer to the bottom */
-    margin-top: auto;
-}
-
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.footer-content p {
-    margin-bottom: 10px;
-}
-
-.footer-links {
-    margin-top: 10px;
-}
-
-.footer-links a {
-    color: rgb(0, 0, 0); 
-    text-decoration: none;
-    margin: 0 10px;
-}
-
-.footer-links a:hover {
-    text-decoration: underline;
-}
-
-.login-circle {
-    position: relative;
-    cursor: pointer;
-}
-
-.user-icon {
-    /* Adjust styles for the default icon or profile image here */
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #ccc; /* Default background for empty user icon */
-}
-
-.dropdown-menu {
-    display: none; /* Hidden by default */
-    position: absolute;
-    top: 30px; /* Position it just below the circle */
-    right: 0; /* Align to the right of the circle */
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    overflow: hidden;
-    z-index: 10; /* Ensure dropdown appears above other elements */
-}
-
-.login-circle:hover .dropdown-menu {
-    display: block; /* Show dropdown on hover */
-}
-
-.dropdown-menu a {
-    display: block;
-    padding: 10px;
-    color: black;
-    text-decoration: none;
-    font-size: 20px;
-}
-
-.dropdown-menu a:hover {
-    background-color: #8B0000;
-    color: white;
-}
-
-</style>
 <body>
-
-    <!-- Wrapper for content -->
-    <div class="wrapper">
-
     <header>
-    <div class="logo">
-                <img src="img/Screenshot 2024-10-13 151839.png" alt="Logo" />
-            </div>
+        <div class="logo">
+            <img src="img/Screenshot 2024-10-13 151839.png" alt="Logo" />
+        </div>
         <nav>
             <ul>
                 <li><a href="index.php">Home</a></li>
-                <li><a href="shop.php">Shop</a></li>
+                <li><a href="#">Library</a></li>
                 <li><a href="#">About</a></li>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                <li><a href="logout.php">Logout</a></li>
-                <?php else: ?>
-                <li><a href="login.php">Login</a></li>
-                <?php endif; ?>
+                <button class="btnLogin-popup">Login</button>
             </ul>
         </nav>
-        
-        <div class="login-circle">
-             <!-- Trigger area for dropdown -->
-                  <?php if ($profilePicture): ?>
-                   <img src="<?php echo $profilePicture; ?>" alt="User Icon" class="user-icon" />
-                 <?php else: ?>
-              <div class="user-icon"></div> <!-- Default icon if no profile picture -->
-                 <?php endif; ?>
-    
-    <!-- Dropdown Menu -->
-        <div class="dropdown-menu">
-             <a href="dashboard.php">Dashboard</a>
-             <a href="logout.php">Sign Out</a>
-             <?php if (isset($_SESSION['user_id'])): ?>
-                <a href="account.php">Account Information</a></li>
-                <?php else: ?>
-                <a href="login.php">Account Information</a></li>
-                <?php endif; ?>    
-        </div>
-        
     </header>
-        <!-- Image Gallery with individual containers -->
+
+    <!-- Popup Form -->
+    <div class="popup" id="popupForm">
+        <div class="form-box login" id="loginForm">
+            <button class="close-btn" id="closeBtn">&times;</button>
+            <h2>Login</h2>
+            <form method="POST" action="login.php"> <!-- Point to the login handler -->
+                <div class="input-box">
+                    <label>Email:</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="input-box">
+                    <label>Password:</label>
+                    <input type="password" name="password" required>
+                </div>
+                <div class="remember-forgot">
+                    <label><input type="checkbox"> Remember me</label>
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" name="login" class="btn">Login</button>
+                <div class="login-register">
+                    <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-box register" id="registerForm" style="display: none;">
+            <button class="close-btn" id="closeRegisterBtn">&times;</button>
+            <h2>Register</h2>
+            <form method="POST" action="register.php"> <!-- Point to the registration handler -->
+                <div class="input-box">
+                    <label>Username:</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="input-box">
+                    <label>Email:</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="input-box">
+                    <label>Password:</label>
+                    <input type="password" name="password" required>
+                </div>
+                <div class="input-box">
+                    <label>Confirm Password:</label>
+                    <input type="password" required>
+                </div>
+                <button type="submit" name="register" class="btn">Register</button>
+                <div class="login-register">
+                    <p>Already have an account? <a href="#" class="login-link">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+  
+
+
+    <!-- Your main content here -->
+    <main>
         <div class="image-gallery">
             <div class="image-item">
-                <img src="img/bakahan.jpg" alt="Bakahan Festival">
-                <h3>Bakahan Festival</h3>
+                <img src="img/bakahan.jpg" alt="Product 1">
+                <h3>Product 1</h3>
             </div>
             <div class="image-item">
-                <img src="img/tapusan.jpg" alt="Tapusan Festival">
-                <h3>Tapusan Festival</h3>
+                <img src="img/lambayok.webp" alt="Product 2">
+                <h3>Product 2</h3>
             </div>
             <div class="image-item">
-                <img src="img/lambayok.webp" alt="Lambayok Festival">
-                <h3>Lambayok Festival</h3>
+                <img src="img/tapusan.jpg" alt="Product 3">
+                <h3>Product 3</h3>
             </div>
+            <!-- Add more products as needed -->
         </div>
+        <div class="view-more-container">
+            <button class="view-more-btn">View More</button>
+        </div>
+    </main>
+    
 
-        <!-- View More Button -->
-<div class="view-more-container">
-    <a href="viewmore.php" class="view-more-btn">View More</a>
-</div>
-
-
-    </div> <!-- End of Wrapper -->
-
-    <!-- Footer -->
-    <footer>
+      <!-- Footer -->
+      <footer>
         <div class="footer-content">
             <p>&copy; 2024 Explore Batangas. All Rights Reserved.</p>
         </div>
@@ -308,7 +377,44 @@ footer {
             <a href="#">Contact Us</a>
         </div>
     </footer>
+  <script>
+   const loginBtn = document.querySelector('.btnLogin-popup');
+        const popup = document.getElementById('popupForm');
+        const closeBtn = document.getElementById('closeBtn');
+        const closeRegisterBtn = document.getElementById('closeRegisterBtn');
+        const registerLink = document.querySelector('.register-link');
+        const loginLink = document.querySelector('.login-link');
 
+        loginBtn.addEventListener('click', () => {
+            popup.style.display = 'flex';
+            document.getElementById('loginForm').style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            popup.style.display = 'none';
+        });
+
+        closeRegisterBtn.addEventListener('click', () => {
+            popup.style.display = 'none';
+        });
+
+        registerLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        });
+
+        loginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        });
+        
+  </script>
+    
 </body>
 </html>
-<script src="script.js"></script>
+
+<?php
+$conn->close(); // Close the database connection
+?>

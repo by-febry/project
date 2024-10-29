@@ -56,10 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile_picture'])) {
                 <img src="<?php echo isset($_SESSION['profile_picture']) ? $_SESSION['profile_picture'] : 'default.png'; ?>" alt="Profile" style="width: 50px; height: 50px; border-radius: 50%;">
             </div>
         </div>
-
-
-    
-  
     </header>
 
     <!-- Dashboard Section -->

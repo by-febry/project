@@ -1,26 +1,27 @@
 <?php
-// Include your database connection
-include 'connection.php';
-session_start();  // Start the session to access session data
+// Start the session at the top before any output
+session_start();
 
-// Initialize the profile picture variable
-$profilePicture = 'default_profile_picture.jpg'; // Set a default image for guests
+// Include the database connection file
+include 'connection.php';
 
 // Check if the user is logged in
 if (isset($_SESSION['user_id'])) {
-    // Fetch user details, including profile picture
-    $userId = $_SESSION['user_id'];
-    $query = "SELECT profile_picture FROM users WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('i', $userId);
-    $stmt->execute();
-    $stmt->bind_result($profilePicture);
-    $stmt->fetch();
-    $stmt->close();
+    $user_id = $_SESSION['user_id'];
+
+    // Fetch user data from the database
+    $query = "SELECT profile_picture, username FROM users WHERE id = '$user_id'";
+    $result = mysqli_query($conn, $query);
+    $user = mysqli_fetch_assoc($result);
+
+    $profile_picture = $user['profile_picture'];
+    $username = $user['username']; // Make sure $username is assigned properly here
+} else {
+    // If the user is not logged in, redirect to login page
+    header("Location: login.php");
+    exit();
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,60 +31,136 @@ if (isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="shop.css">
 </head>
 <style>
-   /* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
+ * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
 
-body {
-    background-color: rgb(244, 244, 244); /* #f4f4f4 */
-    color: rgb(51, 51, 51); /* #333 */
-}
-/* Navigation Bar */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #8B0000; /* Dark Red background */
-    padding: 10px 20px;
-    color: rgb(255, 255, 255); /* White text color */
-    font-size: 25px;
-}
+    html, body {
+        height: 100%;
+        background-color: rgb(244, 244, 244); /* #f4f4f4 */
+        color: rgb(51, 51, 51); /* #333 */
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
 
-/* Logo Section in the Header */
-header .logo img {
-    max-height: 80px;  /* Adjust this value based on header height */
-}
+    /* Navigation Bar */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #8B0000; /* Dark Red background */
+        padding: 10px 20px;
+        color: rgb(255, 255, 255); /* White text color */
+        font-size: 25px;
+    }
 
-/* Navigation Links */
-header nav {
-    margin-left: auto; /* Pushes the navigation links to the right */
-}
+    /* Logo Section */
+    header .logo img {
+        max-height: 80px;
+    }
 
-header nav ul {
-    list-style: none;   /* Removes bullet points from list */
-    display: flex;      /* Displays list items in a row */
-}
+    /* Navigation Links */
+    header nav ul {
+        list-style: none;
+        display: flex;
+        align-items: center;
+    }
 
-/* Individual List Items */
-header nav ul li {
-    margin-right: 30px; /* Space between menu items */
-}
+    header nav ul li {
+        margin-right: 30px;
+    }
 
-/* Links in Navigation */
-header nav ul li a {
-    text-decoration: none; /* Removes underline from links */
-    color: rgb(255, 255, 255); /* White text color */
-    font-weight: bold;
-}
+    header nav ul li a {
+        text-decoration: none;
+        color: rgb(255, 255, 255);
+        font-weight: bold;
+    }
 
-/* Hover Effect on Links */
-header nav ul li a:hover {
-    color: rgb(0, 0, 0); /* Changes text color to black when hovered */
-}
+    header nav ul li a:hover {
+        color: rgb(0, 0, 0); /* Change text color to black when hovered */
+    }
+
+   /* Circular Profile Picture or Default Circle */
+   .user-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #333;
+            border: 2px solid #333;
+        }
+
+        /* Dropdown menu styling */
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 150px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a,p {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .user-menu:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Username styling under the circle */
+        .user-name {
+            text-align: center;
+            font-size: 12px;
+            color: #333;
+        }
+
+
+    /* Footer Section */
+    footer {
+        background-color: #8B0000;
+        color: rgb(255, 255, 255);
+        padding: 20px 0;
+        text-align: center;
+        width: 100%;
+        margin-top: auto; /* Ensure it stays at the bottom */
+    }
+
+    .footer-content p {
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: rgb(0, 0, 0); 
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+    .footer-links a:hover {
+        text-decoration: underline;
+    }
+
 
 
 /* Product Gallery */
@@ -155,55 +232,7 @@ header nav ul li a:hover {
     background-color: rgb(187, 187, 187); /* #bbb */
 }
 
-/* Footer Section */
-footer {
-    background-color: #8B0000; /* #C72C41 */
-    color: rgb(255, 255, 255); /* #fff */
-    padding: 20px 0;
-    text-align: center;
-    position: relative;
-    width: 100%;
-}
 
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.footer-content p {
-    margin-bottom: 10px;
-}
-
-.footer-content .social-icons {
-    list-style: none;
-    display: flex;
-    padding: 0;
-}
-
-.footer-content .social-icons li {
-    margin: 0 10px;
-}
-
-.footer-content .social-icons li a img {
-    width: 24px;
-    height: 24px;
-}
-
-.footer-links {
-    margin-top: 10px;
-}
-
-.footer-links a {
-    color: rgb(0, 0, 0); 
-    text-decoration: none;
-    margin: 0 10px;
-}
-
-.footer-links a:hover {
-    text-decoration: underline;
-}
 
 /* Price styling */
 .price {
@@ -223,47 +252,6 @@ footer {
 }
 
 
-.login-circle {
-    position: relative;
-    cursor: pointer;
-}
-
-.user-icon {
-    /* Adjust styles for the default icon or profile image here */
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #ccc; /* Default background for empty user icon */
-}
-
-.dropdown-menu {
-    display: none; /* Hidden by default */
-    position: absolute;
-    top: 30px; /* Position it just below the circle */
-    right: 0; /* Align to the right of the circle */
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    overflow: hidden;
-    z-index: 10; /* Ensure dropdown appears above other elements */
-}
-
-.login-circle:hover .dropdown-menu {
-    display: block; /* Show dropdown on hover */
-}
-
-.dropdown-menu a {
-    display: block;
-    padding: 10px;
-    color: black;
-    text-decoration: none;
-    font-size: 20px;
-}
-
-.dropdown-menu a:hover {
-    background-color: #8B0000;
-    color: white;
-}
 
 
     </style>
@@ -275,38 +263,38 @@ footer {
     <div class="logo">
         <img src="img/Screenshot 2024-10-13 151839.png" alt="Logo" />
     </div>
-        <nav>
-            <ul>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="shop.php">Shop</a></li>
-                <li><a href="#">About</a></li>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                <li><a href="logout.php">Logout</a></li>
+    <nav>
+        <ul>
+            <li><a href="home.php">Home</a></li>
+            <li><a href="#">Library</a></li>
+            <li><a href="shop.php">Shop</a></li>
+            <li><a href="#">About</a></li>
+
+            <!-- User Profile Section -->
+            <div class="user-menu">
+                <?php if (!empty($profile_picture)): ?>
+                    <!-- If profile picture exists, show it -->
+                    <img src="uploads/<?php echo $profile_picture; ?>" alt="Profile Picture" class="user-icon">
                 <?php else: ?>
-                <li><a href="login.php">Login</a></li>
+                    <!-- If no profile picture, show default white circle -->
+                    <div class="user-icon">
+                        <?php 
+                            $initials = strtoupper($username[0]); // Display first letter of the username
+                            echo $initials; 
+                        ?>
+                    </div>
                 <?php endif; ?>
-            </ul>
-        </nav>
-        <div class="login-circle">
-             <!-- Trigger area for dropdown -->
-                  <?php if ($profilePicture): ?>
-                   <img src="<?php echo $profilePicture; ?>" alt="User Icon" class="user-icon" />
-                 <?php else: ?>
-              <div class="user-icon"></div> <!-- Default icon if no profile picture -->
-                 <?php endif; ?>
-    
-    <!-- Dropdown Menu -->
-        <div class="dropdown-menu">
-             <a href="dashboard.php">Dashboard</a>
-             <a href="logout.php">Sign Out</a>
-             <?php if (isset($_SESSION['user_id'])): ?>
-                <a href="account.php">Account Information</a></li>
-                <?php else: ?>
-                <a href="login.php">Account Information</a></li>
-                <?php endif; ?>    
-        </div>
-        
-    </header>
+                
+                <!-- Dropdown Menu -->
+                <div class="dropdown-content">
+                    <p><?php echo $username; ?></p> <!-- Display username inside the dropdown -->
+                    <a href="userpanel.php">Dashboard</a>
+                    <a href="logout.php">Logout</a>
+                </div>
+            </div>
+        </ul>
+    </nav>
+</header>
 
     <!-- Product Thumbnails -->
     <div class="row">
