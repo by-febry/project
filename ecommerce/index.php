@@ -11,6 +11,7 @@ include 'connection.php'; // Make sure the path is correct
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Batangas - Shop</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script> 
 
     <!-- CSS styles -->
     <style>
@@ -301,6 +302,7 @@ include 'connection.php'; // Make sure the path is correct
                     <label>Password:</label>
                     <input type="password" name="password" required>
                 </div>
+                <div class="g-recaptcha" data-sitekey="6LeOP2AqAAAAAHQB2xmCuXSJzy1yqinSx01NeCxJ"></div>
                 <div class="remember-forgot">
                     <label><input type="checkbox"> Remember me</label>
                     <a href="#">Forgot Password?</a>
@@ -328,10 +330,7 @@ include 'connection.php'; // Make sure the path is correct
                     <label>Password:</label>
                     <input type="password" name="password" required>
                 </div>
-                <div class="input-box">
-                    <label>Confirm Password:</label>
-                    <input type="password" required>
-                </div>
+                
                 <button type="submit" name="register" class="btn">Register</button>
                 <div class="login-register">
                     <p>Already have an account? <a href="#" class="login-link">Login</a></p>
@@ -348,21 +347,19 @@ include 'connection.php'; // Make sure the path is correct
         <div class="image-gallery">
             <div class="image-item">
                 <img src="img/bakahan.jpg" alt="Product 1">
-                <h3>Product 1</h3>
+                <h3>Showcase 1</h3>
             </div>
             <div class="image-item">
                 <img src="img/lambayok.webp" alt="Product 2">
-                <h3>Product 2</h3>
+                <h3>Showcase 2</h3>
             </div>
             <div class="image-item">
                 <img src="img/tapusan.jpg" alt="Product 3">
-                <h3>Product 3</h3>
+                <h3>Showcase 3</h3>
             </div>
             <!-- Add more products as needed -->
         </div>
-        <div class="view-more-container">
-            <button class="view-more-btn">View More</button>
-        </div>
+        
     </main>
     
 

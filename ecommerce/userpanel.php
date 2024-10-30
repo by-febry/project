@@ -35,8 +35,9 @@ if (isset($_SESSION['user_id'])) {
         /* Left Menu Section */
         .menu {
             width: 250px;
-            background-color: #f1f1f1;
+            background-color: #8B0000; /* Dark Red */
             border-right: 2px solid #ccc;
+            color: white;
             transition: width 0.3s;
             overflow: hidden;
         }
@@ -52,6 +53,7 @@ if (isset($_SESSION['user_id'])) {
             cursor: pointer;
             text-align: center;
             border-bottom: 2px solid #ccc;
+            color: white;
         }
 
         /* Menu List */
@@ -63,7 +65,7 @@ if (isset($_SESSION['user_id'])) {
             display: flex;
             align-items: center;
             padding: 10px;
-            color: #333;
+            color: white; /* White text for menu options */
             text-decoration: none;
             font-size: 18px;
             transition: font-size 0.3s;
@@ -74,7 +76,7 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .menu-list a:hover {
-            background-color: #ddd;
+            background-color: #A52A2A; /* Slightly lighter red for hover */
         }
 
         /* Right Content Area */
@@ -93,6 +95,34 @@ if (isset($_SESSION['user_id'])) {
         .menu.collapsed .menu-list a span {
             display: none;
         }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background-color: #8B0000; /* Dark Red for header */
+            color: black;
+            font-weight: bold;
+            padding: 10px;
+            border: 2px solid #000; /* Thicker border */
+        }
+
+        td {
+            color: black;
+            padding: 10px;
+            border: 2px solid #000; /* Thicker border */
+            text-align: center;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* Light grey for alternating rows */
+        }
+
+    </style>
     </style>
 </head>
 <body>

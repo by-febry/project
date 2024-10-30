@@ -24,40 +24,53 @@ if (isset($_SESSION['user_id'])) {
 
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
-    <link rel="stylesheet" href="css/products.css">
+    <link rel="stylesheet" href="css/product.css">
 </head>
 
 <body>
     <!-- Navigation Bar -->
     <header>
     <div class="logo">
-                <img src="img/Screenshot 2024-10-13 151839.png" alt="Logo" />
-            </div>
-        <nav>
-            <ul>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="shop.php">Shop</a></li>
-                <li><a href="#">About</a></li>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                <li><a href="logout.php">Logout</a></li>
+        <img src="img/Screenshot 2024-10-13 151839.png" alt="Logo" />
+    </div>
+    <nav>
+        <ul>
+            <li><a href="home.php">Home</a></li>
+            <li><a href="library.php">Library</a></li>
+            <li><a href="shop.php">Shop</a></li>
+            <li><a href="#">About</a></li>
+
+            <!-- User Profile Section -->
+            <div class="user-menu">
+                <?php if (!empty($profile_picture)): ?>
+                    <!-- If profile picture exists, show it -->
+                    <img src="uploads/<?php echo $profile_picture; ?>" alt="Profile Picture" class="user-icon">
                 <?php else: ?>
-                <li><a href="login.php">Login</a></li>
+                    <!-- If no profile picture, show default white circle -->
+                    <div class="user-icon">
+                        <?php 
+                            $initials = strtoupper($username[0]); // Display first letter of the username
+                            echo $initials; 
+                        ?>
+                    </div>
                 <?php endif; ?>
-            </ul>
-        </nav>
-        <div class="login-circle">
-            <!-- Trigger area for dropdown -->
-            <div class="user-icon"></div>
-        
-        </div>
-    </header>
+                
+                <!-- Dropdown Menu -->
+                <div class="dropdown-content">
+                    <p><?php echo $username; ?></p> <!-- Display username inside the dropdown -->
+                    <a href="userpanel.php">Dashboard</a>
+                    <a href="logout.php">Logout</a>
+                </div>
+            </div>
+        </ul>
+    </nav>
+</header>
 
     <!-- Main Content -->
     <main>

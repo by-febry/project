@@ -225,8 +225,8 @@ if (isset($_SESSION['user_id'])) {
     </div>
     <nav>
         <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="#">Library</a></li>
+            <li><a href="home.php">Home</a></li>
+            <li><a href="library.php">Library</a></li>
             <li><a href="shop.php">Shop</a></li>
             <li><a href="#">About</a></li>
 
@@ -273,8 +273,10 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </div>
     <div class="view-more-container">
+    <a href="viewmore.php">
         <button class="view-more-btn">View More</button>
-    </div>
+    </a>
+</div>
 </main>
 
 <footer>

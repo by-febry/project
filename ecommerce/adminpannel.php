@@ -56,7 +56,8 @@ $transactionResult = $conn->query($transactionQuery);
         /* Left Menu Section */
         .menu {
             width: 250px;
-            background-color: #f1f1f1;
+            background-color: #8B0000;
+            color: white;
             border-right: 2px solid #ccc;
             transition: width 0.3s;
             overflow: hidden;
@@ -73,6 +74,7 @@ $transactionResult = $conn->query($transactionQuery);
             cursor: pointer;
             text-align: center;
             border-bottom: 2px solid #ccc;
+            color: white;
         }
 
         /* Menu List */
@@ -84,7 +86,7 @@ $transactionResult = $conn->query($transactionQuery);
             display: flex;
             align-items: center;
             padding: 10px;
-            color: #333;
+            color: white;
             text-decoration: none;
             font-size: 18px;
             transition: background-color 0.3s;
@@ -101,7 +103,7 @@ $transactionResult = $conn->query($transactionQuery);
         }
 
         .menu-list a:hover {
-            background-color: #ddd;
+            background-color: #a52a2a;
         }
 
         /* Hide text when collapsed */
@@ -119,6 +121,29 @@ $transactionResult = $conn->query($transactionQuery);
         /* Adjust content margin when menu is collapsed */
         .menu.collapsed + .content {
             margin-left: 60px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        th, td {
+            border: 2px solid black;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #8B0000;
+            color: white;
+        }
+
+        td {
+            color: black;
         }
     </style>
 </head>
