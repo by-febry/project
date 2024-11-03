@@ -2,7 +2,7 @@
 $servername = "localhost"; // Replace with your server name (usually "localhost")
 $username = "root";        // Replace with your MySQL username
 $password = "";            // Replace with your MySQL password
-$dbname = "project1"; // Replace with your database name
+$dbname = "project2"; // Replace with your database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 <?php
 // db.php
 $host = '127.0.0.1';
-$db = 'project';
+$db = 'project2';
 $user = 'root'; // Replace with your database username
 $pass = ''; // Replace with your database password
 $charset = 'utf8mb4';

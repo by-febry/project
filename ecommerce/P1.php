@@ -37,7 +37,7 @@ if (isset($_SESSION['user_id'])) {
     <!-- Navigation Bar -->
     <header>
     <div class="logo">
-        <img src="img/Screenshot 2024-10-13 151839.png" alt="Logo" />
+        <img src="img/logo3.png" alt="Logo" />
     </div>
     <nav>
         <ul>

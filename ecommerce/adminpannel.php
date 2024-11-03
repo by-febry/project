@@ -145,6 +145,96 @@ $transactionResult = $conn->query($transactionQuery);
         td {
             color: black;
         }
+
+        .search-container {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-container input[type="text"] {
+    width: 200px; /* Smaller width */
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-container button {
+    padding: 6px 12px;
+    font-size: 14px;
+    color: white;
+    background-color: #8B0000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-container button:hover {
+    background-color: #a52a2a;
+}
+.add-user-form {
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    .add-user-form h2 {
+        color: #8B0000;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group select {
+        width: 95%;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        transition: border-color 0.3s;
+    }
+
+    .form-group input[type="text"]:focus,
+    .form-group input[type="email"]:focus,
+    .form-group input[type="password"]:focus,
+    .form-group select:focus {
+        border-color: #8B0000;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        color: white;
+        background-color: #8B0000;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+        background-color: #a52a2a;
+    }
     </style>
 </head>
 <body>
@@ -185,64 +275,86 @@ $transactionResult = $conn->query($transactionQuery);
 
             // Change the content based on the selected page
             switch (page) {
-              case 'manageAccounts':
-                    contentDiv.innerHTML = `
-                        <h1>Manage Accounts</h1>
-                        <section>
-                            <form action="process.php" method="POST">
-                                <input type="hidden" name="action" value="add">
-                                <input type="text" name="username" placeholder="Username" required>
-                                <input type="email" name="email" placeholder="Email" required>
-                                <input type="password" name="password" placeholder="Password" required>
+                case 'manageAccounts':
+    contentDiv.innerHTML = `
+        <h1>Manage Accounts</h1>
+        <section>
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" id="userSearch" placeholder="Search by username or email...">
+                <button onclick="filterUsers()">Search</button>
+            </div>
+
+            
+            <h3>Existing Users</h3>
+            <!-- Users Table -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTable">
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td><?php echo $row['id']; ?></td>
+                        <td><?php echo $row['username']; ?></td>
+                        <td><?php echo $row['email']; ?></td>
+                        <td><?php echo $row['role']; ?></td>
+                        <td>
+                            <form action="process.php" method="POST" style="display:inline;">
+                                <input type="hidden" name="action" value="edit">
+                                <input type="hidden" name="userId" value="<?php echo $row['id']; ?>">
+                                <input type="text" name="username" value="<?php echo $row['username']; ?>" required>
+                                <input type="email" name="email" value="<?php echo $row['email']; ?>" required>
                                 <select name="role" required>
-                                    <option value="user">User</option>
-                                    <option value="admin">Admin</option>
+                                    <option value="user" <?php echo $row['role'] === 'user' ? 'selected' : ''; ?>>User</option>
+                                    <option value="admin" <?php echo $row['role'] === 'admin' ? 'selected' : ''; ?>>Admin</option>
                                 </select>
-                                <button type="submit">Add User</button>
+                                <button type="submit">Edit</button>
                             </form>
-                            <h3>Existing Users</h3>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php while ($row = $result->fetch_assoc()): ?>
-                                    <tr>
-                                        <td><?php echo $row['id']; ?></td>
-                                        <td><?php echo $row['username']; ?></td>
-                                        <td><?php echo $row['email']; ?></td>
-                                        <td><?php echo $row['role']; ?></td>
-                                        <td>
-                                            <form action="process.php" method="POST" style="display:inline;">
-                                                <input type="hidden" name="action" value="edit">
-                                                <input type="hidden" name="userId" value="<?php echo $row['id']; ?>">
-                                                <input type="text" name="username" value="<?php echo $row['username']; ?>" required>
-                                                <input type="email" name="email" value="<?php echo $row['email']; ?>" required>
-                                                <select name="role" required>
-                                                    <option value="user" <?php echo $row['role'] === 'user' ? 'selected' : ''; ?>>User</option>
-                                                    <option value="admin" <?php echo $row['role'] === 'admin' ? 'selected' : ''; ?>>Admin</option>
-                                                </select>
-                                                <button type="submit">Edit</button>
-                                            </form>
-                                            <form action="process.php" method="POST" style="display:inline;">
-                                                <input type="hidden" name="action" value="delete">
-                                                <input type="hidden" name="userId" value="<?php echo $row['id']; ?>">
-                                                <button type="submit" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    <?php endwhile; ?>
-                                </tbody>
-                            </table>
-                        </section>
-                    `;
-                    break;
+                            <form action="process.php" method="POST" style="display:inline;">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="userId" value="<?php echo $row['id']; ?>">
+                                <button type="submit" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+            <!-- Add User Form with Enhanced Styling -->
+<form action="process.php" method="POST" class="add-user-form">
+    <h2>Add New User</h2>
+    <input type="hidden" name="action" value="add">
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Username" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+    </div>
+    <div class="form-group">
+        <label for="role">Role:</label>
+        <select id="role" name="role" required>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+    </div>
+    <button type="submit" class="submit-btn">Add User</button>
+</form>
+        </section>
+    `;
+    break;
                 case 'transactions':
                     contentDiv.innerHTML = `
                         <h1>Transactions</h1>
@@ -282,6 +394,30 @@ $transactionResult = $conn->query($transactionQuery);
             }
         }
 
+          // JavaScript function to filter users in the table based on search input
+          function filterUsers() {
+            let input = document.getElementById("userSearch").value.toLowerCase();
+            let table = document.getElementById("userTable");
+            let rows = table.getElementsByTagName("tr");
+
+            for (let i = 0; i < rows.length; i++) {
+                let username = rows[i].getElementsByTagName("td")[1];
+                let email = rows[i].getElementsByTagName("td")[2];
+                
+                if (username || email) {
+                    let usernameText = username.textContent || username.innerText;
+                    let emailText = email.textContent || email.innerText;
+
+                    if (usernameText.toLowerCase().includes(input) || emailText.toLowerCase().includes(input)) {
+                        rows[i].style.display = ""; // Show the row
+                    } else {
+                        rows[i].style.display = "none"; // Hide the row
+                    }
+                }       
+            }
+        }
+
+     
         
     </script>
 

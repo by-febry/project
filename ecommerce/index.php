@@ -45,7 +45,8 @@ include 'connection.php'; // Make sure the path is correct
 
     /* Logo Section */
     header .logo img {
-        max-height: 80px;
+        max-height: 50px;
+        margin-top: 10px;
     }
 
     /* Navigation Links */
@@ -270,13 +271,48 @@ include 'connection.php'; // Make sure the path is correct
         background-color: #a62b2b;
     }
 
+    .search-container {
+    width: 300px;
+    text-align: center;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#results {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.result-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item:hover {
+    background-color: #f0f0f0;
+}
+
 
     </style>
 </head>
 <body>
     <header>
         <div class="logo">
-            <img src="img/Screenshot 2024-10-13 151839.png" alt="Logo" />
+            <img src="img/logo3.png" alt="Logo" />
         </div>
         <nav>
             <ul>
@@ -344,6 +380,12 @@ include 'connection.php'; // Make sure the path is correct
 
     <!-- Your main content here -->
     <main>
+        <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchFunction()">
+        <div id="results"></div>
+        </div>
+
+
         <div class="image-gallery">
             <div class="image-item">
                 <img src="img/bakahan.jpg" alt="Product 1">

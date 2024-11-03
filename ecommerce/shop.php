@@ -56,6 +56,7 @@ if (isset($_SESSION['user_id'])) {
         padding: 10px 20px;
         color: rgb(255, 255, 255); /* White text color */
         font-size: 25px;
+        margin-bottom: 10%;
     }
 
     /* Logo Section */
@@ -144,7 +145,7 @@ if (isset($_SESSION['user_id'])) {
         padding: 20px 0;
         text-align: center;
         width: 100%;
-        margin-top: auto; /* Ensure it stays at the bottom */
+        margin-top: 10%; /* Ensure it stays at the bottom */
     }
 
     .footer-content p {
@@ -176,7 +177,6 @@ if (isset($_SESSION['user_id'])) {
     border: 1px solid rgb(221, 221, 221); /* #ddd */
     padding: 25px;
     margin:10px;
- 
     width: 100%;
     text-align: center;
     transition: transform 0.3s ease;
@@ -252,7 +252,29 @@ if (isset($_SESSION['user_id'])) {
 }
 
 
-
+  /* Search Bar Style */
+  .search-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 20px;
+    }
+    .search-container input[type="text"] {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .search-container button {
+        padding: 6px 10px;
+        border: none;
+        background-color: #8B0000; /* Dark Red */
+        color: white;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-left: 5px;
+    }
+    .search-container button:hover {
+        background-color: #C72C41; /* Lighter Red */
+    }
 
     </style>
 <body>
@@ -261,7 +283,7 @@ if (isset($_SESSION['user_id'])) {
     <!-- Navigation Bar -->
     <header>
     <div class="logo">
-        <img src="img/Screenshot 2024-10-13 151839.png" alt="Logo" />
+    <img src="img/logo3.png" alt="Logo" />
     </div>
     <nav>
         <ul>
@@ -293,9 +315,17 @@ if (isset($_SESSION['user_id'])) {
                 </div>
             </div>
         </ul>
+        </nav>
     </nav>
 </header>
 
+<!-- Search Bar -->
+<div class="search-container">
+                <form action="" method="GET">
+                    <input type="text" name="search" placeholder="Search Festivals..." value="<?php echo htmlspecialchars($searchTerm); ?>">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
     <!-- Product Thumbnails -->
     <div class="row">
         <!-- Thumbnail 1 -->
@@ -412,3 +442,20 @@ if (isset($_SESSION['user_id'])) {
 </body>
 </html>
 <script src="script.js"></script>
+<script>$// JavaScript for search functionality
+        document.getElementById('search-bar').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const productItems = document.querySelectorAll('.product-item');
+
+            productItems.forEach(item => {
+                const productName = item.querySelector('h3').innerText.toLowerCase();
+                const productDescription = item.querySelector('.caption p.price').innerText.toLowerCase();
+
+                if (productName.includes(query) || productDescription.includes(query)) {
+                    item.style.display = 'block'; // Show item if it matches
+                } else {
+                    item.style.display = 'none'; // Hide item if it doesn't match
+                }
+            });
+        });
+</script>
