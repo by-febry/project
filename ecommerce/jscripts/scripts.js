@@ -30,4 +30,54 @@ const loginBtn = document.querySelector('.btnLogin-popup');
             document.getElementById('loginForm').style.display = 'block';
         });
 
-        
+        let cartCount = 0;
+
+function openCartModal(button) {
+    const modal = document.getElementById('cartModal');
+    modal.style.display = 'block';
+    // Store the product ID for later use
+    const productId = button.getAttribute('data-product-id');
+    modal.setAttribute('data-product-id', productId);
+}
+
+function closeCartModal() {
+    const modal = document.getElementById('cartModal');
+    modal.style.display = 'none';
+}
+
+function addToCart() {
+    const modal = document.getElementById('cartModal');
+    const quantity = document.getElementById('quantityInput').value;
+    const productId = modal.getAttribute('data-product-id');
+
+    // Send a request to add the product to the cart (you might want to use AJAX for this)
+    // For example:
+    fetch('cart/add_to_cart.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            productId: productId,
+            quantity: quantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            cartCount += parseInt(quantity);
+            document.getElementById('cartCount').innerText = cartCount;
+            closeCartModal();
+        } else {
+            alert('Failed to add to cart');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+// Optional: Function to show the login modal
+function showLoginModal() {
+    alert("Login modal would show here.");
+}

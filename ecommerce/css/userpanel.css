@@ -1,0 +1,100 @@
+
+/* Basic styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+
+/* Left Menu Section */
+.menu {
+    width: 250px;
+    background-color: #8B0000; /* Dark Red */
+    border-right: 2px solid #ccc;
+    color: white;
+    transition: width 0.3s;
+    overflow: hidden;
+}
+
+.menu.collapsed {
+    width: 60px;
+}
+
+/* Menu Icon */
+.menu-icon {
+    font-size: 24px;
+    padding: 20px;
+    cursor: pointer;
+    text-align: center;
+    border-bottom: 2px solid #ccc;
+    color: white;
+}
+
+/* Menu List */
+.menu-list {
+    padding: 20px;
+}
+
+.menu-list a {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: white; /* White text for menu options */
+    text-decoration: none;
+    font-size: 18px;
+    transition: font-size 0.3s;
+}
+
+.menu-list a i {
+    margin-right: 10px; /* Adjust spacing for icons */
+}
+
+.menu-list a:hover {
+    background-color: #A52A2A; /* Slightly lighter red for hover */
+}
+
+/* Right Content Area */
+.content {
+    flex: 1;
+    padding: 20px;
+    transition: margin-left 0.3s;
+}
+
+/* Adjust content margin when menu is collapsed */
+.menu.collapsed + .content {
+    margin-left: 60px;
+}
+
+/* Hide text when menu is collapsed, only show icons */
+.menu.collapsed .menu-list a span {
+    display: none;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background-color: #8B0000; /* Dark Red for header */
+    color: black;
+    font-weight: bold;
+    padding: 10px;
+    border: 2px solid #000; /* Thicker border */
+}
+
+td {
+    color: black;
+    padding: 10px;
+    border: 2px solid #000; /* Thicker border */
+    text-align: center;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Light grey for alternating rows */
+}
+
