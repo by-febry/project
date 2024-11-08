@@ -35,7 +35,8 @@ header {
 
 /* Logo Section in the Header */
 header .logo img {
-  max-height: 80px;  /* Adjust this value based on header height */
+  max-height: 50px;
+  margin-top: 10px; /* Adjust this value based on header height */
 }
 
 /* Navigation Links */

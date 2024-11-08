@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!$captcha) {
         echo "Please check the reCAPTCHA box.";
-        
     }
     // Send the response to Google's verification server
     $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$captcha");
@@ -59,5 +58,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $stmt->close();
     }
-} 
-?>
+}

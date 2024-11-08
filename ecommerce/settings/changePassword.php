@@ -1,28 +1,23 @@
 <?php
 session_start();
 include '../connection.php';
-
 $message = ''; // Variable to hold the success or error message
-
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $oldPassword = $_POST['old_password'];
         $newPassword = $_POST['new_password'];
-
         // Verify old password
         $stmt = $conn->prepare("SELECT password FROM users WHERE id = ?");
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
-
         if (password_verify($oldPassword, $user['password'])) {
             // Hash new password and update it
             $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
             $updateStmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
             $updateStmt->bind_param("si", $hashedPassword, $userId);
-
             if ($updateStmt->execute()) {
                 // Successful password update
                 $message = "Password updated successfully.";
@@ -39,7 +34,6 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

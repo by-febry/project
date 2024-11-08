@@ -26,4 +26,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
 }
 
 $conn->close(); // Close the database connection
-?>
