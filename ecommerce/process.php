@@ -2,8 +2,7 @@
 include 'connection.php';
 
 // Function to add a user
-function addUser($username, $email, $password, $role)
-{
+function addUser($username, $email, $password, $role) {
     global $conn;
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     $query = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
@@ -13,8 +12,7 @@ function addUser($username, $email, $password, $role)
 }
 
 // Function to delete a user
-function deleteUser($userId)
-{
+function deleteUser($userId) {
     global $conn;
     $query = "DELETE FROM users WHERE id = ?";
     $stmt = $conn->prepare($query);
@@ -23,8 +21,7 @@ function deleteUser($userId)
 }
 
 // Function to edit a user
-function editUser($userId, $username, $email, $role)
-{
+function editUser($userId, $username, $email, $role) {
     global $conn;
     $query = "UPDATE users SET username = ?, email = ?, role = ? WHERE id = ?";
     $stmt = $conn->prepare($query);
@@ -49,3 +46,4 @@ if (isset($_POST['action'])) {
             break;
     }
 }
+?>

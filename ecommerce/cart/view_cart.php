@@ -1,11 +1,13 @@
 <?php
 session_start();
 include '../connection.php';
+
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
+
 // Handle quantity update
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
     foreach ($_SESSION['cart'] as &$cartItem) {
@@ -15,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
         }
     }
 }
+
 // Handle item removal
 if (isset($_GET['remove'])) {
     $product_name = $_GET['remove'];
@@ -26,22 +29,27 @@ if (isset($_GET['remove'])) {
     }
     $_SESSION['cart'] = array_values($_SESSION['cart']); // Re-index the array
 }
+
 // Handle checkout
 if (isset($_POST['checkout'])) {
     if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
         $user_id = $_SESSION['user_id'];
+
         // Insert each cart item into the orders table
         foreach ($_SESSION['cart'] as $item) {
             $product_name = $item['name'];
             $quantity = $item['quantity'];
             $price = $item['price'];
+
             // Insert into orders table
             $stmt = $conn->prepare("INSERT INTO orders (user_id, product_name, quantity, price) VALUES (?, ?, ?, ?)");
             $stmt->bind_param("isid", $user_id, $product_name, $quantity, $price);
             $stmt->execute();
         }
+
         // Clear the cart after checkout
         unset($_SESSION['cart']);
+
         // Redirect to a confirmation page (you can create this page)
         header("Location: order_confirmation.php");
         exit();
@@ -49,6 +57,7 @@ if (isset($_POST['checkout'])) {
         echo "Your cart is empty!";
     }
 }
+
 // Add to Cart logic (update this section in your shop.php)
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_name'], $_POST['price'])) {
     $user_id = $_SESSION['user_id'];
@@ -60,10 +69,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_name'], $_POST
     $stmt->bind_param("is", $user_id, $product_name);
     $stmt->execute();
     $result = $stmt->get_result();
+
     if ($result->num_rows > 0) {
         // If the product is already in the cart, increase the quantity
         $cartItem = $result->fetch_assoc();
         $newQuantity = $cartItem['quantity'] + 1;
+
         $updateStmt = $conn->prepare("UPDATE carts SET quantity = ? WHERE cart_id = ?");
         $updateStmt->bind_param("ii", $newQuantity, $cartItem['cart_id']);
         $updateStmt->execute();
@@ -78,7 +89,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_name'], $_POST
     header("Location: shop.php");
     exit();
 }
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -101,6 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_name'], $_POST
                 <li><a href="../shop.php">Shop</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="../cart/view_cart.php">Cart (<span id="cartCount"><?php echo count($_SESSION['cart'] ?? []); ?></span>)</a></li>
+
                 <!-- User Profile Section -->
                 <div class="user-menu">
                     <?php if (!empty($profile_picture)): ?>
@@ -110,6 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_name'], $_POST
                             <?php echo strtoupper($username[0]); ?>
                         </div>
                     <?php endif; ?>
+
                     <div class="dropdown-content">
                         <p><?php echo htmlspecialchars($username); ?></p>
                         <a href="../userpanel.php">Dashboard</a>
@@ -119,6 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_name'], $_POST
             </ul>
         </nav>
     </header>
+
     <!-- Cart Overview -->
     <div class="cart-container">
         <h2>Your Cart</h2>
@@ -165,10 +181,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_name'], $_POST
             <form action="" method="POST">
                 <button type="submit" name="checkout">Checkout</button>
             </form>
+
         <?php else: ?>
             <p>Your cart is empty. Start shopping!</p>
         <?php endif; ?>
     </div>
+
     <!-- Footer -->
     <footer>
         <div class="footer-content">

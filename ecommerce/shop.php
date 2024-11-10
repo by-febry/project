@@ -1,320 +1,59 @@
 <?php
-// Start the session at the top before any output
 session_start();
-
-// Include the database connection file
 include 'connection.php';
 
 // Check if the user is logged in
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-
-    // Fetch user data from the database
-    $query = "SELECT profile_picture, username FROM users WHERE id = '$user_id'";
-    $result = mysqli_query($conn, $query);
-    $user = mysqli_fetch_assoc($result);
-
-    $profile_picture = $user['profile_picture'];
-    $username = $user['username']; // Make sure $username is assigned properly here
-} else {
-    // If the user is not logged in, redirect to login page
+if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
+
+// Handle "Add to Cart" request
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_name'], $_POST['price'])) {
+    $product_name = $_POST['product_name'];
+    $price = $_POST['price'];
+
+    // Create a product array
+    $product = [
+        'name' => $product_name,
+        'price' => $price,
+        'quantity' => 1 // Default quantity when added
+    ];
+
+    // Initialize the cart if it doesn't exist
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+
+    // Check if the product is already in the cart
+    $product_names = array_column($_SESSION['cart'], 'name');
+    if (in_array($product['name'], $product_names)) {
+        // Increase quantity if product is already in the cart
+        foreach ($_SESSION['cart'] as &$cartItem) {
+            if ($cartItem['name'] == $product['name']) {
+                $cartItem['quantity']++;
+                break;
+            }
+        }
+    } else {
+        // Add the product to the cart
+        $_SESSION['cart'][] = $product;
+    }
+    header("Location: shop.php");
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Batangas - Shop</title>
-    <link rel="stylesheet" href="shop.css">
+    <link rel="stylesheet" href="css/shops.css">
+    <script src="script.js" defer></script>
 </head>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Arial', sans-serif;
-    }
-
-    html,
-    body {
-        height: 100%;
-        background-color: rgb(244, 244, 244);
-        /* #f4f4f4 */
-        color: rgb(51, 51, 51);
-        /* #333 */
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-    }
-
-    /* Navigation Bar */
-    header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #8B0000;
-        /* Dark Red background */
-        padding: 10px 20px;
-        color: rgb(255, 255, 255);
-        /* White text color */
-        font-size: 25px;
-        margin-bottom: 10%;
-    }
-
-    /* Logo Section */
-    header .logo img {
-        max-height: 50px;
-        margin-top: 10px;
-    }
-
-    /* Navigation Links */
-    header nav ul {
-        list-style: none;
-        display: flex;
-        align-items: center;
-    }
-
-    header nav ul li {
-        margin-right: 30px;
-    }
-
-    header nav ul li a {
-        text-decoration: none;
-        color: rgb(255, 255, 255);
-        font-weight: bold;
-    }
-
-    header nav ul li a:hover {
-        color: rgb(0, 0, 0);
-        /* Change text color to black when hovered */
-    }
-
-    /* Circular Profile Picture or Default Circle */
-    .user-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background-color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 18px;
-        color: #333;
-        border: 2px solid #333;
-    }
-
-    /* Dropdown menu styling */
-    .user-menu {
-        position: relative;
-        display: inline-block;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        right: 0;
-        background-color: #f9f9f9;
-        min-width: 150px;
-        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-    }
-
-    .dropdown-content a,
-    p {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
-
-    .dropdown-content a:hover {
-        background-color: #f1f1f1;
-    }
-
-    .user-menu:hover .dropdown-content {
-        display: block;
-    }
-
-    /* Username styling under the circle */
-    .user-name {
-        text-align: center;
-        font-size: 12px;
-        color: #333;
-    }
-
-
-    /* Footer Section */
-    footer {
-        background-color: #8B0000;
-        color: rgb(255, 255, 255);
-        padding: 20px 0;
-        text-align: center;
-        width: 100%;
-        margin-top: 10%;
-        /* Ensure it stays at the bottom */
-    }
-
-    .footer-content p {
-        margin-bottom: 10px;
-    }
-
-    .footer-links a {
-        color: rgb(0, 0, 0);
-        text-decoration: none;
-        margin: 0 10px;
-    }
-
-    .footer-links a:hover {
-        text-decoration: underline;
-    }
-
-
-
-    /* Product Gallery */
-    .row {
-        display: flex;
-        justify-content: space-evenly;
-        flex-wrap: wrap;
-        margin-top: 20px;
-    }
-
-    .thumbnail {
-        background-color: rgb(255, 255, 255);
-        /* #fff */
-        border: 1px solid rgb(221, 221, 221);
-        /* #ddd */
-        padding: 25px;
-        margin: 10px;
-        width: 100%;
-        text-align: center;
-        transition: transform 0.3s ease;
-    }
-
-    .thumbnail:hover {
-        transform: translateY(-10px);
-    }
-
-    .thumbnail img {
-        width: 100%;
-        height: 200px;
-        /* Set a fixed height for all thumbnails */
-        object-fit: cover;
-        /* Ensure image fits the thumbnail */
-    }
-
-    .caption h3 {
-        margin: 10px 0;
-    }
-
-    /* Button Spacing */
-    .caption p {
-        margin-top: 10px;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .btn-primary,
-    .btn-default {
-        flex: 1;
-        margin: 0 5px;
-        /* Add margin to separate the buttons */
-        padding: 10px;
-        cursor: pointer;
-        text-decoration: none;
-        /* Remove underline from buttons */
-    }
-
-    .btn-primary {
-        background-color: #008000;
-        /* #C72C41 */
-        color: rgb(255, 255, 255);
-        /* #fff */
-        border: none;
-    }
-
-    .btn-primary:hover {
-        background-color: rgb(255, 215, 0);
-        /* #FFD700 */
-        color: #008000;
-        /* #C72C41 */
-    }
-
-    .btn-default {
-        background-color: rgb(221, 221, 221);
-        /* #ddd */
-        color: rgb(51, 51, 51);
-        /* #333 */
-        border: none;
-    }
-
-    .btn-default:hover {
-        background-color: rgb(187, 187, 187);
-        /* #bbb */
-    }
-
-
-
-    /* Price styling */
-    .price {
-        font-size: 18px;
-        /* Maintain the larger font size for price */
-        font-weight: bold;
-        color: #008000;
-        /* Green color for the price */
-        margin: 10px 0;
-    }
-
-    /* Quantity left styling */
-    .quantity-left {
-        font-size: 12px;
-        /* Smaller font size for the quantity */
-        color: #808080;
-        /* Gray color */
-        font-weight: normal;
-        float: right;
-        /* Align to the right */
-        margin-top: -.3px;
-        /* Adjust the vertical alignment slightly */
-    }
-
-
-    /* Search Bar Style */
-    .search-container {
-        display: flex;
-        justify-content: flex-end;
-        margin-right: 20px;
-    }
-
-    .search-container input[type="text"] {
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-
-    .search-container button {
-        padding: 6px 10px;
-        border: none;
-        background-color: #8B0000;
-        /* Dark Red */
-        color: white;
-        cursor: pointer;
-        border-radius: 4px;
-        margin-left: 5px;
-    }
-
-    .search-container button:hover {
-        background-color: #C72C41;
-        /* Lighter Red */
-    }
-</style>
-
 <body>
-
-
     <!-- Navigation Bar -->
     <header>
         <div class="logo">
@@ -326,173 +65,80 @@ if (isset($_SESSION['user_id'])) {
                 <li><a href="#">Library</a></li>
                 <li><a href="shop.php">Shop</a></li>
                 <li><a href="#">About</a></li>
-
+                <li><a href="cart/view_cart.php">Cart (<span id="cartCount"><?php echo count($_SESSION['cart'] ?? []); ?></span>)</a></li>
+                
                 <!-- User Profile Section -->
                 <div class="user-menu">
                     <?php if (!empty($profile_picture)): ?>
-                        <!-- If profile picture exists, show it -->
                         <img src="uploads/<?php echo $profile_picture; ?>" alt="Profile Picture" class="user-icon">
                     <?php else: ?>
-                        <!-- If no profile picture, show default white circle -->
                         <div class="user-icon">
-                            <?php
-                            $initials = strtoupper($username[0]); // Display first letter of the username
-                            echo $initials;
-                            ?>
+                            <?php echo strtoupper($username[0]); ?>
                         </div>
                     <?php endif; ?>
-
-                    <!-- Dropdown Menu -->
+                    
                     <div class="dropdown-content">
-                        <p><?php echo $username; ?></p> <!-- Display username inside the dropdown -->
+                        <p><?php echo htmlspecialchars($username); ?></p>
                         <a href="userpanel.php">Dashboard</a>
                         <a href="logout.php">Logout</a>
                     </div>
                 </div>
             </ul>
         </nav>
-        </nav>
     </header>
 
     <!-- Search Bar -->
     <div class="search-container">
         <form action="" method="GET">
-            <input type="text" name="search" placeholder="Search Festivals..." value="<?php echo htmlspecialchars($searchTerm); ?>">
+            <input type="text" name="search" placeholder="Search Festivals..." value="<?php echo htmlspecialchars($searchTerm ?? ''); ?>">
             <button type="submit">Search</button>
         </form>
     </div>
+
     <!-- Product Thumbnails -->
     <div class="row">
-        <!-- Thumbnail 1 -->
-        <div class="col-sm-6 col-md-3">
-            <div class="thumbnail">
-                <img src="img/lambanog_product.webp" alt="Lambanog">
-                <div class="caption">
-                    <h3>Lambanog</h3>
-                    <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
+        <?php
+        // Example product array, replace with dynamic data from your database
+        $products = [
+            ['id' => 1, 'name' => 'Lambanog', 'price' => 20.00, 'image' => 'img/lambanog_product.webp'],
+            ['id' => 2, 'name' => 'Palayok', 'price' => 20.00, 'image' => 'img/palayok.jpg'],
+            ['id' => 3, 'name' => 'Handwoven Basket', 'price' => 20.00, 'image' => 'img/handwoven basket.jpg'],
+            ['id' => 4, 'name' => 'Kapeng Barako', 'price' => 20.00, 'image' => 'img/kapeng Barako.jpg'],
+            ['id' => 5, 'name' => 'Bagoong Balayan', 'price' => 20.00, 'image' => 'img/bagoong-balayan.jpg'],
+            ['id' => 6, 'name' => 'Dried Fish (Tuyo)', 'price' => 20.00, 'image' => 'img/Dried Fish.jpg'],
+        ];
 
-                    <p>
-                        <a href="P1.php" class="btn btn-primary" role="button">Buy</a>
-                        <a href="#" class="btn btn-default" role="button">Add to Cart</a>
-                    </p>
-                </div>
-            </div>
-            <!-- Thumbnail 2 -->
+        foreach ($products as $product): ?>
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">
-                    <img src="img/palayok.jpg" alt="Palayok">
+                    <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
                     <div class="caption">
-                        <h3>Palayok</h3>
-                        <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
-
+                        <h3><?php echo $product['name']; ?></h3>
+                        <p class="price">$<?php echo number_format($product['price'], 2); ?> <span class="quantity-left">Quantity Left: 10</span></p>
                         <p>
-                            <a href="P2.php" class="btn btn-primary" role="button">Buy</a>
-                            <a href="#" class="btn btn-default" role="button">Add to Cart</a>
+                            <a href="P<?php echo $product['id']; ?>.php" class="btn btn-primary" role="button">Buy</a> 
+                            <form method="POST" action="shop.php">
+                                <input type="hidden" name="product_name" value="<?php echo $product['name']; ?>">
+                                <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
+                                <button type="submit" class="btn">Add to Cart</button>
+                            </form>
                         </p>
                     </div>
                 </div>
             </div>
+        <?php endforeach; ?>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Explore Batangas. All Rights Reserved.</p>
         </div>
-
-
-
-        <!-- Thumbnail 3 -->
-        <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-                <img src="img/handwoven basket.jpg" alt="Handwoven Basket">
-                <div class="caption">
-                    <h3>Handwoven Basket</h3>
-                    <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
-
-                    <p>
-                        <a href="P3.php" class="btn btn-primary" role="button">Buy</a>
-                        <a href="#" class="btn btn-default" role="button">Add to Cart</a>
-                    </p>
-                </div>
-            </div>
-            <!-- Thumbnail 4 -->
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail">
-                    <img src="img/kapeng Barako.jpg" alt="Kapeng Barako">
-                    <div class="caption">
-                        <h3>Kapeng Barako</h3>
-                        <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
-
-                        <p>
-                            <a href="P4.php" class="btn btn-primary" role="button">Buy</a>
-                            <a href="#" class="btn btn-default" role="button">Add to Cart</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a> | 
+            <a href="#">Terms of Service</a> | 
+            <a href="#">Contact Us</a>
         </div>
-
-
-        <!-- Thumbnail 5 -->
-        <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-                <img src="img/bagoong-balayan.jpg" alt="Bagoong Balayan">
-                <div class="caption">
-                    <h3>Bagoong Balayan</h3>
-                    <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
-
-                    <p>
-                        <a href="P5.php" class="btn btn-primary" role="button">Buy</a>
-                        <a href="#" class="btn btn-default" role="button">Add to Cart</a>
-                    </p>
-                </div>
-            </div>
-            <!-- Thumbnail 6 -->
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail">
-                    <img src="img/Dried Fish.jpg" alt="Dried Fish (Tuyo)">
-                    <div class="caption">
-                        <h3>Dried Fish (Tuyo)</h3>
-                        <p class="price">$20.00 <span class="quantity-left">Quantity Left: 10</span></p>
-
-                        <p>
-                            <a href="P6.php" class="btn btn-primary" role="button">Buy</a>
-                            <a href="#" class="btn btn-default" role="button">Add to Cart</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <!-- Footer -->
-        <footer>
-            <div class="footer-content">
-                <p>&copy; 2024 Explore Batangas. All Rights Reserved.</p>
-
-            </div>
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a> |
-                <a href="#">Terms of Service</a> |
-                <a href="#">Contact Us</a>
-            </div>
-        </footer>
-
+    </footer>
 </body>
-
 </html>
-<script src="script.js"></script>
-<script>
-    $ // JavaScript for search functionality
-    document.getElementById('search-bar').addEventListener('input', function() {
-        const query = this.value.toLowerCase();
-        const productItems = document.querySelectorAll('.product-item');
-
-        productItems.forEach(item => {
-            const productName = item.querySelector('h3').innerText.toLowerCase();
-            const productDescription = item.querySelector('.caption p.price').innerText.toLowerCase();
-
-            if (productName.includes(query) || productDescription.includes(query)) {
-                item.style.display = 'block'; // Show item if it matches
-            } else {
-                item.style.display = 'none'; // Hide item if it doesn't match
-            }
-        });
-    });
-</script>

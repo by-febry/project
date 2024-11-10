@@ -4,307 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Batangas - Art Gallery</title>
-    <style>
-        /* Reset body margin and padding */
-        body {
-            margin: 0; /* Remove default margin */
-            padding: 0; /* Remove default padding */
-        }
-
-        /* Navigation Bar */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #8B0000; /* Dark Red background */
-            padding: 10px 20px;
-            color: rgb(255, 255, 255); /* White text color */
-            font-size: 25px;
-            margin: 0; /* Remove margin around header */
-        }
-
-        /* Logo Section in the Header */
-        header .logo img {
-            max-height: 80px; /* Adjust this value based on header height */
-        }
-
-        /* Navigation Links */
-        header nav {
-            margin-left: auto; /* Pushes the navigation links to the right */
-        }
-
-        header nav ul {
-            list-style: none; /* Removes bullet points from list */
-            display: flex; /* Displays list items in a row */
-        }
-
-        /* Individual List Items */
-        header nav ul li {
-            margin-right: 30px; /* Space between menu items */
-        }
-
-        /* Links in Navigation */
-        header nav ul li a {
-            text-decoration: none; /* Removes underline from links */
-            color: rgb(255, 255, 255); /* White text color */
-            font-weight: bold;
-        }
-
-        /* Hover Effect on Links */
-        header nav ul li a:hover {
-            color: rgb(0, 0, 0); /* Changes text color to black when hovered */
-        }
-
-        /* User Icon & Dropdown Placeholder */
-        .login-circle {
-            position: relative;
-        }
-
-        .user-icon {
-            width: 90px;
-            height: 75px;
-            background-color: #fff; /* White circle as placeholder for user icon */
-            border-radius: 50%; /* Makes the placeholder a circle */
-            cursor: pointer; /* Changes cursor to pointer (clickable) */
-        }
-
-        /* Main Content for Cultural Heritage */
-        main {
-            padding: 20px; /* Optional: Add padding to main content */
-        }
-
-        /* Footer Section */
-footer {
-    background-color: #8B0000; /* #C72C41 */
-    color: rgb(255, 255, 255); /* #fff */
-    padding: 20px 0;
-    text-align: center;
-    width: 100%;
-    /* Stick the footer to the bottom */
-    margin-top: auto;
-}
-
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.footer-content p {
-    margin-bottom: 10px;
-}
-
-.footer-links {
-    margin-top: 10px;
-}
-
-.footer-links a {
-    color: rgb(0, 0, 0); 
-    text-decoration: none;
-    margin: 0 10px;
-}
-
-.footer-links a:hover {
-    text-decoration: underline;
-}
-
-.view-more {
-    display: block;
-    margin-top: 20px;
-    color: blue;
-    text-decoration: none;
-}
-
-/* Main Section */
-main {
-    text-align: center;
-    padding: 40px;
-    flex: 1; /* Allows main content to expand and push footer to the bottom */
-}
-
-h1 {
-    font-size: 28px;
-    margin-bottom: 40px;
-}
-
-.gallery {
-    display: flex;
-    justify-content: center;
-    gap: 40px; /* Increase spacing between items */
-}
-
-.item {
-    position: relative; /* Set position relative for absolute positioning of info */
-    overflow: hidden; /* Hide overflow for zoom effect */
-    width: 300px; /* Set fixed width */
-    height: 300px; /* Set fixed height */
-}
-
-.item img {
-    width: 100%; /* Make image responsive */
-    height: auto; /* Maintain aspect ratio */
-    transition: transform 0.3s ease; /* Transition for zoom effect */
-}
-
-.item:hover img {
-    transform: scale(2); /* Zoom in on hover */
-}
-
-.info {
-    position: absolute; /* Position info absolutely */
-    bottom: 0; /* Align to bottom */
-    left: 0; /* Align to left */
-    right: 0; /* Align to right */
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    color: white; /* White text */
-    padding: 10px; /* Padding around text */
-    opacity: 0; /* Initially hide the info */
-    transition: opacity 0.3s ease; /* Transition for opacity */
-}
-
-.item:hover .info {
-    opacity: 1; /* Show info on hover */
-}
-
-
-.view-more {
-    display: block;
-    margin-top: 20px;
-    color: blue;
-    text-decoration: none;
-}
-
-.view-more:hover {
-    text-decoration: underline;
-}
-
-/* Cultural Heritage Layout */
-.cultural-heritage-layout {
-    display: flex;
-    flex-direction: column; /* Stack gallery items vertically */
-    gap: 20px; /* Space between gallery items */
-}
-
-/* Gallery Item */
-.gallery-item {
-    display: flex; /* Enable flexbox for horizontal layout */
-    align-items: center; /* Align items vertically centered */
-    background-color: #f9f9f9; /* Light background for contrast */
-    border: 1px solid #ccc; /* Light border for definition */
-    border-radius: 5px; /* Slight rounding of corners */
-    padding: 15px; /* Padding around the item */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-}
-
-/* Gallery Content: Flexbox for image and text */
-.gallery-content {
-    display: flex;
-    width: 100%; /* Ensure full width */
-    height: auto;
-    max-height: 300px;
-
-}
-
-/* Image Styling */
-.gallery-item img {
-    width: 100%;    
-    max-width: 300px; /* Set a max-width for images */
-    height: 100%;
-    border-radius: 5px; /* Optional: round the corners of the image */
-    margin-right: 15px; /* Space between image and text */
-}
-
-/* Gallery Text Styling */
-.gallery-text {
-    flex: 1; /* Allow text to take remaining space */
-}
-
-/* Style for the label */
-.gallery-label {
-    display: block; /* Make label a block element */
-    font-size: 18px; /* Set font size for the label */
-    font-weight: bold; /* Make the label bold */
-    color: #333; /* Color of the label */
-    margin-bottom: 5px; /* Space between label and paragraph */
-}
-
-/* Paragraph Styling */
-/* Default styles for the gallery text */
-.gallery-text p {
-    font-size: 0.8rem; /* Base font size for small screens */
-}
-
-/* Responsive styles for larger screens */
-@media (min-width: 576px) {
-    /* Increase font size for small devices (576px and up) */
-    .gallery-text p {
-        font-size: 1rem; /* Increase font size for better readability */
-    }
-
-    .gallery-label {
-        font-size: 1.1rem; /* Slightly larger label */
-    }
-    
-    /* Adjust the layout for larger screens */
-    .gallery-item {
-        flex-direction: row; /* Ensure horizontal layout */
-    }
-    
-    /* Adjust image size for better proportion on larger screens */
-    .gallery-item img {
-        max-width: 250px; /* Increase max-width for larger screens */
-    }
-}
-
-@media (min-width: 768px) {
-    /* Increase font size for medium devices (768px and up) */
-    .gallery-text p {
-        font-size: 1.1rem; /* Larger font size */
-    }
-
-    .gallery-label {
-        font-size: 1.2rem; /* Larger label font size */
-    }
-    
-    /* Further adjust image size for larger screens */      
-    .gallery-item img {
-        max-width: 300px; /* Adjust max-width for larger screens */
-    }
-}
-
-@media (min-width: 992px) {
-    /* Increase font size for large devices (992px and up) */
-    .gallery-text p {
-        font-size: 1.2rem; /* Largest font size */
-    }
-
-    .gallery-label {
-        font-size: 1.3rem; /* Largest label font size */
-    }
-}
-/* Products Button */
-.products-btn {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 16px;
-    background-color: #8B0000; /* Dark red to match header */
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-.products-btn:hover {
-    background-color: #A52A2A; /* Slightly lighter red for hover */
-}
-    </style>
+    <link rel="stylesheet" href="css/librarys.css">
+  
 </head>
 <body>
     <!-- Navigation Bar -->
     <header>
         <div class="logo">
-        <img src="img/logo3.png" alt="Logo" />
+            <img src="img/logo3.png" alt="Logo" />
         </div>
         <nav>
             <ul>
@@ -315,67 +22,376 @@ h1 {
             </ul>
         </nav>
         <div class="login-circle">
-            <!-- Trigger area for dropdown -->
             <div class="user-icon"></div>
         </div>
     </header>
 
-    <!-- Main Content for Cultural Heritage -->
-    <main>
-        <h2>*Cultural Heritage Part*</h2>
-        <p>Festival, arts and crafts, and other cultural aspects related to Batangas.</p>
-        <div class="cultural-heritage-layout">
-            <!-- Gallery Item 1 -->
-            <div class="gallery-item">
-                <div class="gallery-content">
-                    <img src="img/lambayok.webp" alt="Gallery Item 1" />
-                    <div class="gallery-text">
-                        <label class="gallery-label">Lambayok Festival</label>
-                        <p>The Lambayok Festival is an annual celebration in San Juan, Batangas, Philippines, that highlights the town’s three main sources of livelihood: "Lambanog" (local coconut wine), "Palayok" (clay pots), and "Karagatan" (the sea). The festival showcases the town's rich cultural heritage through parades, street dances, and various contests. It's held every December and serves as a way to promote local products and tourism.</p>
-                        <a href="#" class="products-btn">Products</a>
-                    </div>
-                </div>
+    <!-- Main Content -->
+    <main id="pageContainer">
+        <!-- Festival Sections -->
+        <section class="page page1">
+            <div class="page-image">
+                <div class="page-image-fullscreen" style="background-image: url('img/tapusan.jpg');"></div>
             </div>
+            <div class="page-content">
+                <h1 class="event-title">Tapusan Festival</h1>
+                <p class="event-location">Alitagtag, Batangas, Philippines</p>
+                <p class="event-description">
+                    Experience the vibrant culmination of Flores de Mayo at the Tapusan Festival. This cultural celebration honors the Holy Cross through stunning religious processions, elaborate floral installations, and a grand parade.
+                </p>
+                <a href="#" class="location-btn" onclick="openMap('mapModal1')">Location</a>
+            </div>
+        </section>
+        <div id="mapModal1" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeMap('mapModal1')">&times;</span>
+                <iframe id="map-iframe"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15493.574003017357!2d121.01843721541371!3d13.87440039026992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd0fd80e54c34f%3A0x437f2087f5c21c53!2sAlitagtag%2C%20Batangas!5e0!3m2!1sen!2sph!4v1710645573513!5m2!1sen!2sph"
+                    width="600" height="450"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
 
-            <!-- Gallery Item 2 -->
-            <div class="gallery-item">
-                <div class="gallery-content">
-                    <img src="img/bakahan.jpg" alt="Gallery Item 2" />
-                    <div class="gallery-text">
-                        <label class="gallery-label">Bakahan Festival</label>
-                        <p>The Bakahan Festival is an annual event in San Juan, Batangas, Philippines, celebrating the town's cattle industry. Typically held in April, the festival features livestock parades, cattle shows, street dancing, and various competitions. It aims to promote agricultural practices, raise awareness about livestock farming, and highlight the community's cultural heritage. The festival fosters a sense of pride among locals and attracts tourists to the region.</p>
-                        <a href="#" class="products-btn">Products</a>
-                    </div>
-                </div>
+        <section class="page page2">
+            <div class="page-image">
+                <div class="page-image-fullscreen" style="background-image: url('img/sublian_festival.webp');"></div>
             </div>
+            <div class="page-content">
+                <h1 class="event-title">Sublian Festival</h1>
+                <p class="event-location">Batangas City, Philippines</p>
+                <p class="event-description">
+                    This festival celebrates the devotion to the Holy Cross and Santo Niño (Child Jesus). It highlights the traditional Subli dance and other Batangueño cultural performances.
+                </p>
+                <a href="#" class="location-btn" onclick="openMap('mapModal2')">Location</a>
+            </div>
+        </section>
+        <div id="mapModal2" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeMap('mapModal2')">&times;</span>
+                <iframe id="map-iframe"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d123901.40751539036!2d121.00149824179688!3d13.756666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd0fea065f1aff%3A0x4c7f489de558ff2!2sBatangas%20City%2C%20Batangas!5e0!3m2!1sen!2sph!4v1710645573513!5m2!1sen!2sph"
+                    width="600" height="450"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
 
-            <!-- Gallery Item 3 -->
-            <div class="gallery-item">
-                <div class="gallery-content">
-                    <img src="img/tapusan.jpg" alt="Gallery Item 3" />
-                    <div class="gallery-text">
-                        <label class="gallery-label">Tapusan Festival</label>
-                        <p>The Tapusan Festival is an annual celebration held in Batangas, Philippines, typically in January. It honors the tradition of "tapusan," which means "to end" in Filipino, marking the conclusion of the Christmas season and the feast of the Santo Niño (Child Jesus). The festival features colorful street parades, cultural performances, and various competitions, showcasing the rich heritage and traditions of the local community. It aims to foster unity among residents and highlight the significance of faith and gratitude in their lives.</p>
-                        <a href="#" class="products-btn">Products</a>
-                    </div>
-                </div>
+        <section class="page page3">
+            <div class="page-image">
+                <div class="page-image-fullscreen" style="background-image: url('img/Paradanglechon.jpg');"></div>
             </div>
+            <div class="page-content">
+                <h1 class="event-title">Parada ng Lechon</h1>
+                <p class="event-location">Balayan, Batangas, Philippines</p>
+                <p class="event-description">
+                    The festival features a grand parade of roasted pigs (lechon), decorated in colorful attire. Attendees usually douse each other with water, celebrating both the feast and Filipino culture.
+                </p>
+                <a href="#" class="location-btn" onclick="openMap('mapModal3')">Location</a>
+            </div>
+        </section>
+        <div id="mapModal3" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeMap('mapModal3')">&times;</span>
+                
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61954.15373830944!2d120.68866516552214!3d13.95058966976329!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bda321fa23c4af%3A0x15255e1209796544!2sBalayan%2C%20Batangas!5e0!3m2!1sen!2sph!4v1730648892917!5m2!1sen!2sph"
+                        width="600"
+                        height="450"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+            </div>
+        </div>
+
+        <section class="page page4">
+            <div class="page-image">
+                <div class="page-image-fullscreen" style="background-image: url('img/ElPasubatFestival.jpg');"></div>
+            </div>
+            <div class="page-content">
+                <h1 class="event-title">El Pasubat Festival</h1>
+                <p class="event-location">Taal, Batangas, Philippines</p>
+                <p class="event-description">
+                    Named after Taal’s delicacies (Empanada, Longganisa, Panutsa, Suman, Barong, Balisong, Tapang Taal), this festival highlights the town's rich culinary and cultural heritage.
+                </p>
+                <a href="#" class="location-btn" onclick="openMap('mapModal4')">Location</a>
+            </div>
+        </section>
+        <div id="mapModal4" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeMap('mapModal4')">&times;</span>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61970.33001393953!2d120.89698658833612!3d13.89023934794681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd0a1efabef203%3A0x4ef524d256f82617!2sTaal%2C%20Batangas!5e0!3m2!1sen!2sph!4v1730645524610!5m2!1sen!2sph"
+                        width="600"
+                        height="450"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+            </div>
+        </div>
+
+        <section class="page page5">
+            <div class="page-image">
+                <div class="page-image-fullscreen" style="background-image: url('img/BalsaFesitval.jpg');"></div>
+            </div>
+            <div class="page-content">
+                <h1 class="event-title">Balsa Festival</h1>
+                <p class="event-location">Lian, Batangas, Philippines</p>
+                <p class="event-description">
+                    A celebration of thanksgiving for the town's bountiful sea resources, with a focus on traditional bamboo rafts (balsa) and fluvial parades.
+                </p>
+                <a href="#" class="location-btn" onclick="openMap('mapModal5')">Location</a>
+            </div>
+        </section>
+        <div id="mapModal5" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeMap('mapModal5')">&times;</span>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d123885.52554903114!2d120.56275800456045!3d13.992933897040006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd965879bed27b%3A0x5621337013ad1e0e!2sLian%2C%20Batangas!5e0!3m2!1sen!2sph!4v1730645542639!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+
+        <section class="page page6">
+            <div class="page-image">
+                <div class="page-image-fullscreen" style="background-image: url('img/sublian_festival.webp');"></div>
+            </div>
+            <div class="page-content">
+                <h1 class="event-title">Kapurpurawan Festival</h1>
+                <p class="event-location">Lobo, Batangas, Philippines</p>
+                <p class="event-description">
+                    Known as the "Kapeng Barako Festival," it honors the coffee industry, especially Batangas’ famous barako coffee. It includes cultural shows, coffee exhibits, and dance parades.
+                </p>
+                <a href="#" class="location-btn" onclick="openMap('mapModal6')">Location</a>
+            </div>
+        </section>
+        <div id="mapModal6" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeMap('mapModal6')">&times;</span>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62013.95129148797!2d120.87576503742214!3d13.726201085524549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd2203014b54d7%3A0x7716e3f4d7c9cf0c!2sLobo%2C%20Batangas!5e0!3m2!1sen!2sph!4v1730645674895!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+
+        <section class="page page7">
+            <div class="page-image">
+                <div class="page-image-fullscreen" style="background-image: url('img/sigpawanfestuival.jfif');"></div>
+            </div>
+            <div class="page-content">
+                <h1 class="event-title">Sigpawan Festival</h1>
+                <p class="event-location">Calaca, Batangas, Philippines</p>
+                <p class="event-description">
+                    This festival celebrates the end of the harvest season, highlighting the community's agricultural roots with street dancing and displays of local produce.
+                </p>
+                <a href="#" class="location-btn" onclick="openMap('mapModal7')">Location</a>
+            </div>
+        </section>
+        <div id="mapModal7" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeMap('mapModal7')">&times;</span>
+                <iframe id="map-iframe"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61957.91474672417!2d120.78947611878667!3d13.934999141570461!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd9d5f6e0f5d4f%3A0x95d885c5f4183f0e!2sCalaca%2C%20Batangas!5e0!3m2!1sen!2sph!4v1710646892133!5m2!1sen!2sph"
+                    width="600"
+                    height="450"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+
+        <section class="page page8">
+            <div class="page-image">
+                <div class="page-image-fullscreen" style="background-image: url('img/tinapayfestival.jfif');"></div>
+            </div>
+            <div class="page-content">
+                <h1 class="event-title">Tinapay Festival</h1>
+                <p class="event-location">Cuenca, Batangas, Philippines</p>
+                <p class="event-description">
+                    This festival celebrates the town's bread-making industry, with a grand display of local bread and pastries, parades, and cultural events.
+                </p>
+                <a href="#" class="location-btn" onclick="openMap('mapModal8')">Location</a>
+            </div>
+        </section>
+        <div id="mapModal8" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeMap('mapModal8')">&times;</span>
+                <iframe id="map-iframe"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61965.74282710775!2d121.04244583125!3d13.904999000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd0f9f591f7acf%3A0x46d7625e587b927e!2sCuenca%2C%20Batangas!5e0!3m2!1sen!2sph!4v1710647892133!5m2!1sen!2sph"
+                    width="600" height="450"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+
+        <section class="page page9">
+            <div class="page-image">
+                <div class="page-image-fullscreen" style="background-image: url('img/sublian_festival.webp');"></div>
+            </div>
+            <div class="page-content">
+                <h1 class="event-title">Mabini Founding Anniversary and Dive Festival</h1>
+                <p class="event-location">Mabini, Batangas, Philippines</p>
+                <p class="event-description">
+                    Celebrated in honor of the town’s foundation, it highlights the world-renowned diving spots and marine biodiversity of Anilao, Mabini.
+                </p>
+                <a href="#" class="location-btn" onclick="openMap('mapModal9')">Location</a>
+            </div>
+        </section>
+        <div id="mapModal9" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeMap('mapModal9')">&times;</span>
+                <iframe id="map-iframe"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61965.74282710775!2d121.0424458312!3d13.904999000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd0f9f591f7acf%3A0x46d7625e587b927e!2sMabini%2C%20Batangas!5e0!3m2!1sen!2sph!4v1710647892133!5m2!1sen!2sph"
+                    width="600" height="450"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+
+        <section class="page page10">
+            <div class="page-image">
+                <div class="page-image-fullscreen" style="background-image: url('img/Tilapia.jfif');"></div>
+            </div>
+            <div class="page-content">
+                <h1 class="event-title">Tilapia Festival</h1>
+                <p class="event-location">Laurel, Batangas, Philippines</p>
+                <p class="event-description">
+                    Tilapia Festival is a vibrant celebration highlighting the significance of tilapia farming in the region. Tanauan, located near Taal Lake—a major source of tilapia—hosts this annual festival to honor local fish farmers, showcase various tilapia dishes, and promote sustainable aquaculture practices.
+                </p>
+                <a href="#" class="location-btn" onclick="openMap('mapModal10')">Location</a>
+            </div>
+        </section>
+        <div id="mapModal10" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeMap('mapModal10')">&times;</span>
+                <iframe id="map-iframe"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61965.74282710775!2d120.9424458312!3d13.904999000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd0f9f591f7acf%3A0x46d7625e587b927e!2sLaurel%2C%20Batangas!5e0!3m2!1sen!2sph!4v1710647892133!5m2!1sen!2sph"
+                    width="600" height="450"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+
+        <section class="page page11">
+            <div class="page-image">
+                <div class="page-image-fullscreen" style="background-image: url('img/lambayok.webp');"></div>
+            </div>
+            <div class="page-content">
+                <h1 class="event-title">Lambayok Festival</h1>
+                <p class="event-location">San Juan, Batangas, Philippines</p>
+                <p class="event-description">
+                    The Lambayok Festival highlights the town's main sources of livelihood: "Lambanog" (local coconut wine), "Palayok" (clay pots), and "Karagatan" (the sea). The festival includes parades, street dances, and contests, promoting local products and tourism.
+                </p>
+                <a href="#" class="location-btn" onclick="openMap('mapModal11')">Location</a>
+            </div>
+        </section>
+        <div id="mapModal11" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeMap('mapModal11')">&times;</span>
+                <iframe id="map-iframe"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61965.74282710775!2d121.3524458312!3d13.824999000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd101e87c1b84f%3A0xa0f829f24d013e0!2sSan%20Juan%2C%20Batangas!5e0!3m2!1sen!2sph!4v1710647892133!5m2!1sen!2sph"
+                    width="600" height="450"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+
+        <div id="pageCounter" class="page-counter">
+            Page <span id="currentPageNum">1</span> / <span id="totalPageNum">11</span>
         </div>
     </main>
 
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <div class="nav-arrow" id="leftArrow">&#8592;</div>
+        <div class="nav-arrow" id="rightArrow">&#8594;</div>
+    </div>
+
     <!-- Footer -->
-   <!-- Footer -->
-   <footer>
-        <div class="footer-content">
-            <p>&copy; 2024 Explore Batangas. All Rights Reserved.</p>
-        </div>
-        <div class="footer-links">
-            <a href="#">Privacy Policy</a> | 
-            <a href="#">Terms of Service</a> | 
-            <a href="#">Contact Us</a>
-        </div>
+    <footer>
+        <p>&copy; 2024 Explore Batangas. All Rights Reserved.</p>
+        <a href="#">Privacy Policy</a> | 
+        <a href="#">Terms of Service</a> | 
+        <a href="#">Contact Us</a>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const pages = document.querySelectorAll('.page');
+        const leftArrow = document.getElementById("leftArrow");
+        const rightArrow = document.getElementById("rightArrow");
+        
+        let currentPage = 0;
+        const totalPages = pages.length;
+        
+        // Update total pages counter
+        document.getElementById('totalPageNum').textContent = totalPages;
+
+        function updatePage() {
+            // Hide all pages first
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show current page
+            pages[currentPage].classList.add('active');
+            
+            // Update arrows visibility
+            leftArrow.style.display = currentPage === 0 ? 'none' : 'block';
+            rightArrow.style.display = currentPage === totalPages - 1 ? 'none' : 'block';
+            
+            // Update page counter
+            document.getElementById('currentPageNum').textContent = currentPage + 1;
+        }
+
+        leftArrow.addEventListener("click", () => {
+            if (currentPage > 0) {
+                currentPage--;
+                updatePage();
+            }
+        });
+
+        rightArrow.addEventListener("click", () => {
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                updatePage();
+            }
+        });
+
+        // Initialize first page
+        updatePage();
+    });
+
+    function openMap(modalId) {
+        document.getElementById(modalId).style.display = "block";
+    }
+
+    function closeMap(modalId) {
+        document.getElementById(modalId).style.display = "none";
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = "none";
+        }
+    }
+    </script>
 </body>
 </html>
